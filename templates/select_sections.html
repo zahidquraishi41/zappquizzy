@@ -1,0 +1,25 @@
+<!-- REQURIRES FOLLOWING PARAMETERS -->
+<!-- sections: list[str] -->
+<!-- title: str -->
+<!-- prev_url: str -->
+
+{% extends "base.html" %}
+{% block content %}
+<h1 class="display-3 pt-5">{{ title }}</h1>
+<hr class="mb-5">
+
+<form method="post">
+    <div class="row">
+        {% for section in sections %}
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+            <input type="checkbox" class="btn-check" name="sections" id="{{ section }}" value="{{ section }}"
+                autocomplete="off">
+            <label class="btn btn-outline-primary py-3 selectable-button" for="{{ section }}">{{ section }}</label>
+        </div>
+        {% endfor %}
+    </div>
+    <button class="btn btn-primary px-3" type="button" onclick="window.location.href='{{ prev_url }}'">Prev</button>
+    <button class="btn btn-primary px-3" type="submit">Next</button>
+</form>
+<div class="m-5"></div>
+{% endblock content %}

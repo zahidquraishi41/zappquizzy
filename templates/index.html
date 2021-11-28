@@ -1,0 +1,44 @@
+<!-- REQUIRES -->
+<!-- sections: list[str] -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="display-3 py-3">Welcome,</h1>
+
+<div class="bg-info rounded py-5 px-3">
+
+    <div class="tag-box">
+        <h1 class="display-6">Sections</h1>
+        <ul>
+            {% for section in sections %}
+            <li>
+                {{ section }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="menu">
+        <ul>
+            <li onclick="window.location.href='/quiz'">
+                <span class="menu-name fs-5">Start Quiz</span>
+                <i class="menu-icon fas fa-play fa-4x"></i>
+            </li>
+            <li>
+                <span class="menu-name fs-5">Settings</span>
+                <i class="menu-icon fas fa-cog fa-4x"></i>
+            </li>
+            <li>
+                <span class="menu-name fs-5">Help</span>
+                <i class="menu-icon fas fa-question-circle fa-4x"></i>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="fs-6 text-end">
+    <p>Copyright @Zapp</p>
+</div>
+{% endblock content %}
