@@ -7,58 +7,79 @@
 {% block stylesheet %}
 <!-- Bootstrap CSS CDN -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-    integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+   integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <!-- Our Custom CSS -->
 <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}">
 <!-- Scrollbar Custom CSS -->
 <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+   href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 {% endblock stylesheet %}
 
 {% block main %}
 <div class="wrapper">
-    <!-- Sidebar  -->
-    <nav id="sidebar" class="bg-dark p-3">
-        <div class="section-nav text-center mb-5">
-            <i class="fas fa-arrow-left" onclick="prevSection()"></i>
-            <span class="fs-5 px-2 section-name">
-                <!-- SECTION NAME WILL BE INJECTED HERE -->
-            </span>
-            <i class="fas fa-arrow-right" onclick="nextSection()"></i>
-        </div>
+   <!-- Sidebar  -->
+   <nav id="sidebar" class="bg-dark p-3">
+      <div class="section-nav text-center mb-5">
+         <i class="fas fa-arrow-left" onclick="prevSection()"></i>
+         <span class="fs-5 px-2 section-name">
+            <!-- SECTION NAME WILL BE INJECTED HERE -->
+         </span>
+         <i class="fas fa-arrow-right" onclick="nextSection()"></i>
+      </div>
 
-        <div class="qn-buttons">
-            <!-- QUESTION BUTTONS WILL BE INJECTED HERE -->
-        </div>
-    </nav>
+      <div class="qn-buttons">
+         <!-- QUESTION BUTTONS WILL BE INJECTED HERE -->
+      </div>
+   </nav>
 
-    <!-- Page Content  -->
-    <div id="content">
-        <button type="button" id="sidebarCollapse" class="btn btn-info mb-3">
-            <i class="fas fa-align-left"></i>
-        </button>
-
-        <form id="quiz" class="form-check">
-            <div class="question">
-                <!-- HERE QUESTION WILL BE INJECTED BY JS -->
+   <!-- Page Content  -->
+   <div id="content">
+      <!-- Questions Attempted Modal -->
+      <div class="modal fade" id="questionsAttemptedModal" tabindex="-1" aria-labelledby="questionsAttemptedModalLabel"
+         aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="questionsAttemptedModalLabel">Questions Attempted</h5>
+                  <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body" id="questionsAttemptedBody">
+                  <!-- LIST OF SECTIONS WITH QUESTIONS ATTEMPTED WILL BE DISPLAYED HERE -->
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <!-- OPEN SECOND DIALOG WHEN CLICK ON FINISH -->
+                  <button type="button" class="btn btn-primary">Finish</button>
+               </div>
             </div>
-            <div class="options">
-                <!-- HERE OPTIONS WILL BE INJECTED BY JS -->
+         </div>
+      </div>
+
+      <button type="button" id="sidebarCollapse" class="btn btn-info mb-3">
+         <i class="fas fa-align-left"></i>
+      </button>
+
+      <form id="quiz" class="form-check">
+         <div class="question">
+            <!-- HERE QUESTION WILL BE INJECTED BY JS -->
+         </div>
+         <div class="options">
+            <!-- HERE OPTIONS WILL BE INJECTED BY JS -->
+         </div>
+
+         <!-- TODO add explanation div here -->
+
+         <div class="position-relative my-3">
+            <button class="btn btn-primary px-3" type="button" onclick="prevQuestion()">Prev</button>
+            <button class="btn btn-primary px-3" type="button" onclick="nextQuestion()">Next</button>
+            <div class="position-absolute top-0 end-0">
+               <button class="btn btn-danger px-3" type="button" onclick="displayAttempts()">Finish</button>
             </div>
+         </div>
 
-            <!-- TODO add explanation div here -->
+      </form>
+   </div>
 
-            <div class="position-relative my-3">
-                <button class="btn btn-primary px-3" type="button" onclick="prevQuestion()">Prev</button>
-                <button class="btn btn-primary px-3" type="button" onclick="nextQuestion()">Next</button>
-                <div class="position-absolute top-0 end-0">
-                    <button class="btn btn-danger px-3" type="submit" value="Finish">Finish</button>
-                </div>
-            </div>
-
-        </form>
-
-    </div>
 </div>
 {% endblock main %}
 
@@ -66,37 +87,34 @@
 {% block scripts %}
 <!-- jQuery CDN - Slim version (=without AJAX) -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
+   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <!-- Popper.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
-    integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-    crossorigin="anonymous"></script>
+   integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-    integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-    crossorigin="anonymous"></script>
+   integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 <!-- jQuery Custom Scroller CDN -->
 <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+   src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#sidebar").mCustomScrollbar({
-            theme: "minimal"
-        });
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar, #content').toggleClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-        });
-    });
+   $(document).ready(function () {
+      $("#sidebar").mCustomScrollbar({
+         theme: "minimal"
+      });
+      $('#sidebarCollapse').on('click', function () {
+         $('#sidebar, #content').toggleClass('active');
+         $('.collapse.in').toggleClass('in');
+         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+      });
+   });
 </script>
 
 <script>
-    let questions = '{{ questions_json|tojson }}'
-    questions = questions.substring(1, questions.length - 1)
-    questions = JSON.parse(questions)
+   let questions = '{{ questions_json|tojson }}'
+   questions = questions.substring(1, questions.length - 1)
+   questions = JSON.parse(questions)
 </script>
 <script src="{{ url_for('static', filename='quiz.js') }}"></script>
 {% endblock scripts %}

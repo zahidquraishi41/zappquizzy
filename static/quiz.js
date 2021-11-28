@@ -10,6 +10,8 @@ const questionDiv = document.querySelector('.question')
 const optionsDiv = document.querySelector('.options')
 const quizForm = document.querySelector('#quiz')
 
+const questionsAttemptedDiv = document.querySelector('#questionsAttemptedBody')
+
 const updateSidebar = () => {
     sectionNameSpan.textContent = currentSection
     qnButtonsDiv.innerHTML = ''
@@ -81,6 +83,28 @@ const prevSection = () => {
     changeQuestion(0)
 }
 
+const displayAttempts = () => {
+    questionsAttemptedDiv.innerHTML = ''
+    sections.forEach(section => {
+        let attempted = 0
+        const total = questions[section].length
+        if (userAnswers.has(section)) {
+            const answers = userAnswers.get(section)
+            answers.forEach(a => attempted += (a != null)) // DAWM
+        }
+        questionsAttemptedDiv.innerHTML += `
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <span>${section}</span>
+            </div>
+            <div class="col-md-6 text-right">
+                <span>${attempted}/${total}</span>
+            </div>
+        </div>`
+    })
+    $("#questionsAttemptedModal").modal("show");
+}
+
 
 optionsDiv.addEventListener('click', e => {
     if (e.target.nodeName != 'LABEL') return
@@ -90,11 +114,6 @@ optionsDiv.addEventListener('click', e => {
     }
     const answers = userAnswers.get(currentSection)
     answers[currentQuestionsNumber] = e.target.textContent[0]
-})
-
-quizForm.addEventListener('submit', e => {
-    e.preventDefault()
-    console.log('Submitted')
 })
 
 changeQuestion(0)
