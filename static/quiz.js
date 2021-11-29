@@ -2,15 +2,21 @@ const sections = Object.keys(questions)
 let currentSection = sections[0]
 let currentQuestionsNumber = 0
 let userAnswers = new Map()
+sections.forEach(section => {
+    let arr = new Array(questions[section].length).fill(null)
+    userAnswers.set(section, arr)
+})
 
 const sectionNameSpan = document.querySelector('.section-name')
 const qnButtonsDiv = document.querySelector('.qn-buttons')
 
 const questionDiv = document.querySelector('.question')
 const optionsDiv = document.querySelector('.options')
-const quizForm = document.querySelector('#quiz')
 
 const questionsAttemptedDiv = document.querySelector('#questionsAttemptedBody')
+const finishQuizBtn = document.querySelector('#finishQuiz')
+const scoreDiv = document.querySelector('#scoreBody')
+
 
 const updateSidebar = () => {
     sectionNameSpan.textContent = currentSection
@@ -20,37 +26,37 @@ const updateSidebar = () => {
         elem.classList.add('btn', 'm-1', 'text-white', 'qn-button')
         elem.textContent = i + 1
         elem.onclick = () => changeQuestion(i)
-
         if (currentQuestionsNumber == i) elem.classList.add('btn-primary')
-        else if (userAnswers.has(currentSection)) {
+        else {
             const answers = userAnswers.get(currentSection)
             if (answers[i] != null) elem.classList.add('btn-info')
             else elem.classList.add('btn-outline-primary')
-        } else elem.classList.add('btn-outline-primary')
-
+        }
         qnButtonsDiv.append(elem)
     })
 }
 
 const changeQuestion = questionNumber => {
+    if (questionNumber == undefined) questionNumber = currentQuestionsNumber
     currentQuestionsNumber = questionNumber
     const question = questions[currentSection][questionNumber]
     questionDiv.innerHTML = `<p class="text-dark question"> ${question.question} </p>`
     optionsDiv.innerHTML = ``
 
     let selectedOption = -1
-    if (userAnswers.has(currentSection)) {
-        const answers = userAnswers.get(currentSection)
-        if (answers[currentQuestionsNumber] != null)
-            selectedOption = answers[currentQuestionsNumber]
-    }
+    const answers = userAnswers.get(currentSection)
+    if (answers[currentQuestionsNumber] != null)
+        selectedOption = answers[currentQuestionsNumber]
 
-    question.options.forEach((option, i) => {
+    question.options.forEach((option) => {
+        const addAttribute = (elem, attr) => input.substring(0, elem.length - 1) + ' ' + attr + input.substring(elem.length - 1)
+        input = `<input type="radio" class="btn-check" name="options" id="${option}" value="${option}" autocomplete="off">`
+        if (finishQuizBtn.style.visibility == 'hidden')
+            input = addAttribute(input, 'disabled')
         if (option[0] == selectedOption)
-            input = `<input type="radio" class="btn-check" name="options" id="${option}" value="${option}" autocomplete="off" checked>`
-        else
-            input = `<input type="radio" class="btn-check" name="options" id="${option}" value="${option}" autocomplete="off">`
+            input = addAttribute(input, 'checked')
         label = `<label class="btn btn-outline-primary py-3 text-start" for="${option}" style="min-width: 300px;">${option}</label> <br>`
+
         optionsDiv.innerHTML += input
         optionsDiv.innerHTML += label
     })
@@ -84,14 +90,22 @@ const prevSection = () => {
 }
 
 const displayAttempts = () => {
+    // temp code to show answer
+    temp = []
+    sections.forEach(section => {
+        ans = []
+        questions[section].forEach(e => ans.push(e.answer))
+        temp.push(ans)
+    })
+    console.log(temp)
+    // end of temp code
+
     questionsAttemptedDiv.innerHTML = ''
     sections.forEach(section => {
         let attempted = 0
         const total = questions[section].length
-        if (userAnswers.has(section)) {
-            const answers = userAnswers.get(section)
-            answers.forEach(a => attempted += (a != null)) // DAWM
-        }
+        const answers = userAnswers.get(section)
+        answers.forEach(a => attempted += (a != null)) // DAWM
         questionsAttemptedDiv.innerHTML += `
         <div class="row mb-2">
             <div class="col-md-6">
@@ -105,13 +119,43 @@ const displayAttempts = () => {
     $("#questionsAttemptedModal").modal("show");
 }
 
+const resetAndGoHome = () => {
+    changeQuestion(currentQuestionsNumber)
+    location.assign('home')
+}
+
+const displayScoreModal = () => {
+    finishQuizBtn.style.visibility = 'hidden'
+    scoreDiv.innerHTML = ''
+    sections.forEach(section => {
+        let score = 0
+        const inc = (1.0 / questions[section].length) * 100
+        const answers = userAnswers.get(section)
+        answers.forEach((a, i) => score += inc * (a == questions[section][i].answer)) // DAWMM
+        score = score.toFixed(2)
+        if (score < 25.0)
+            scoreSpan = `<span class='text-danger'>${score}%</span>`
+        else if (score < 50.0)
+            scoreSpan = `<span class='text-info'>${score}%</span>`
+        else
+            scoreSpan = `<span class='text-success'>${score}%</span>`
+
+        scoreDiv.innerHTML += `
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <span>${section}</span>
+            </div>
+            <div class="col-md-6 text-right">
+                ${scoreSpan}
+            </div>
+        </div>`
+    })
+    $("#questionsAttemptedModal").modal("hide");
+    $("#scoreModal").modal("show");
+}
 
 optionsDiv.addEventListener('click', e => {
     if (e.target.nodeName != 'LABEL') return
-    if (!userAnswers.has(currentSection)) {
-        let arr = new Array(questions[currentSection].length).fill(null)
-        userAnswers.set(currentSection, arr)
-    }
     const answers = userAnswers.get(currentSection)
     answers[currentQuestionsNumber] = e.target.textContent[0]
 })

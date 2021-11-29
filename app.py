@@ -13,6 +13,7 @@ session = SessionDB()
 
 
 @app.route('/')
+@app.route('/home')
 def home():
     if not session.category:
         return redirect(url_for('categories'))

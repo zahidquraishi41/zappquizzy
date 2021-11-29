@@ -19,12 +19,12 @@
 <div class="wrapper">
    <!-- Sidebar  -->
    <nav id="sidebar" class="bg-dark p-3">
-      <div class="section-nav text-center mb-5">
-         <i class="fas fa-arrow-left" onclick="prevSection()"></i>
-         <span class="fs-5 px-2 section-name">
+      <div class="row align-items-center mb-3">
+         <i class="fas fa-arrow-left col-3 align-middle" onclick="prevSection()"></i>
+         <span class="fs-5 section-name text-center col-6">
             <!-- SECTION NAME WILL BE INJECTED HERE -->
          </span>
-         <i class="fas fa-arrow-right" onclick="nextSection()"></i>
+         <i class="fas fa-arrow-right col-3 h-100" onclick="nextSection()"></i>
       </div>
 
       <div class="qn-buttons">
@@ -49,35 +49,56 @@
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                   <!-- OPEN SECOND DIALOG WHEN CLICK ON FINISH -->
-                  <button type="button" class="btn btn-primary">Finish</button>
+                  <button type="button" class="btn btn-primary" onclick="displayScoreModal()">Finish</button>
                </div>
             </div>
          </div>
       </div>
 
-      <button type="button" id="sidebarCollapse" class="btn btn-info mb-3">
-         <i class="fas fa-align-left"></i>
-      </button>
+      <!-- Score Modal -->
+      <div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="scoreModalLabel">Final Score</h5>
+                  <!-- <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button> -->
+               </div>
+               <div class="modal-body" id="scoreBody">
+                  <!-- LIST OF SECTIONS WITH QUESTIONS ATTEMPTED WILL BE DISPLAYED HERE -->
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" onclick="resetAndGoHome()">Home</button>
+                  <!-- OPEN SECOND DIALOG WHEN CLICK ON FINISH -->
+                  <button type="button" class="btn btn-primary" onclick="changeQuestion()"
+                     data-dismiss="modal">Details</button>
+               </div>
+            </div>
+         </div>
+      </div>
 
-      <form id="quiz" class="form-check">
+      <!-- Question And Options -->
+      <div class="content-box">
+         <button type="button" id="sidebarCollapse" class="btn btn-info mb-3">
+            <i class="fas fa-align-left"></i>
+         </button>
          <div class="question">
             <!-- HERE QUESTION WILL BE INJECTED BY JS -->
          </div>
          <div class="options">
             <!-- HERE OPTIONS WILL BE INJECTED BY JS -->
          </div>
-
          <!-- TODO add explanation div here -->
+      </div>
 
-         <div class="position-relative my-3">
-            <button class="btn btn-primary px-3" type="button" onclick="prevQuestion()">Prev</button>
-            <button class="btn btn-primary px-3" type="button" onclick="nextQuestion()">Next</button>
-            <div class="position-absolute top-0 end-0">
-               <button class="btn btn-danger px-3" type="button" onclick="displayAttempts()">Finish</button>
-            </div>
+      <!-- Prev, Next, Finish Buttons -->
+      <div class="position-relative my-3">
+         <button class="btn btn-primary px-3" type="button" onclick="prevQuestion()">Prev</button>
+         <button class="btn btn-primary px-3" type="button" onclick="nextQuestion()">Next</button>
+         <div class="position-absolute top-0 end-0">
+            <button class="btn btn-danger px-3" type="button" id="finishQuiz"
+               onclick="displayAttempts()">Finish</button>
          </div>
-
-      </form>
+      </div>
    </div>
 
 </div>

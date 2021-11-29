@@ -193,7 +193,7 @@ def scrap_section(url: str) -> list[tuple[str, str, str, str]]:
                 if elem.text.strip():
                     data.insert(0, elem.text.strip())
             if __is_question(elem):
-                data[0] = data[0].split('.')[1:]
+                data[0] = (data[0].split('.', 1)[1]).strip()
                 break
             i -= 1
 
