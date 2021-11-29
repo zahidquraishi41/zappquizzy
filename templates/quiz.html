@@ -2,8 +2,8 @@
 <!-- title: str -->
 <!-- questions_json: str -->
 
-
 {% extends "base.html" %}
+
 {% block stylesheet %}
 <!-- Bootstrap CSS CDN -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
@@ -78,9 +78,15 @@
 
       <!-- Question And Options -->
       <div class="content-box">
-         <button type="button" id="sidebarCollapse" class="btn btn-info mb-3">
+         <button class="btn btn-success" id="sidebarCollapse">
             <i class="fas fa-align-left"></i>
          </button>
+
+         <!-- <input type="checkbox" class="btn-check" id="sidebarCollapse" autocomplete="off">
+         <label class="btn btn-outline-success" for="sidebarCollapse">
+            <i class="fas fa-align-left"></i>
+         </label><br> -->
+
          <div class="question">
             <!-- HERE QUESTION WILL BE INJECTED BY JS -->
          </div>
@@ -92,7 +98,7 @@
 
       <!-- Prev, Next, Finish Buttons -->
       <div class="position-relative my-3">
-         <button class="btn btn-primary px-3" type="button" onclick="prevQuestion()">Prev</button>
+         <button class="btn btn-primary px-3 me-2" type="button" onclick="prevQuestion()">Prev</button>
          <button class="btn btn-primary px-3" type="button" onclick="nextQuestion()">Next</button>
          <div class="position-absolute top-0 end-0">
             <button class="btn btn-danger px-3" type="button" id="finishQuiz"

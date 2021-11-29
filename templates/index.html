@@ -4,41 +4,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="display-3 py-3">Welcome,</h1>
-
-<div class="bg-info rounded py-5 px-3">
-
-    <div class="tag-box">
-        <h1 class="display-6">Sections</h1>
-        <ul>
-            {% for section in sections %}
-            <li>
-                {{ section }}
-            </li>
-            {% endfor %}
-        </ul>
+<div class="position-relative" style="height: 100vh;">
+    <div class="position-absolute top-50 start-50 translate-middle text-center">
+        <h1 class="display-5 mb-5">Yo,</h1>
+        <button class="btn-lg btn-primary" onclick="window.location.href='/quiz'">Start Quiz</button>
     </div>
-
-    <div class="menu">
-        <ul>
-            <li onclick="window.location.href='/quiz'">
-                <span class="menu-name fs-5">Start Quiz</span>
-                <i class="menu-icon fas fa-play fa-4x"></i>
-            </li>
-            <li>
-                <span class="menu-name fs-5">Settings</span>
-                <i class="menu-icon fas fa-cog fa-4x"></i>
-            </li>
-            <li>
-                <span class="menu-name fs-5">Help</span>
-                <i class="menu-icon fas fa-question-circle fa-4x"></i>
-            </li>
-        </ul>
-    </div>
-
-</div>
-
-<div class="fs-6 text-end">
-    <p>Copyright @Zapp</p>
 </div>
 {% endblock content %}

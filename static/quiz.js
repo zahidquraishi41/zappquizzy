@@ -55,7 +55,7 @@ const changeQuestion = questionNumber => {
             input = addAttribute(input, 'disabled')
         if (option[0] == selectedOption)
             input = addAttribute(input, 'checked')
-        label = `<label class="btn btn-outline-primary py-3 text-start" for="${option}" style="min-width: 300px;">${option}</label> <br>`
+        label = `<label class="btn btn-outline-primary py-3 text-start option" for="${option}">${option}</label> <br>`
 
         optionsDiv.innerHTML += input
         optionsDiv.innerHTML += label

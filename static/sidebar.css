@@ -1,11 +1,6 @@
-/* ---------------------------------------------------
-    DEMO STYLE
------------------------------------------------------ */
-
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 body {
     font-family: 'Poppins', sans-serif;
-    background: #fafafa;
 }
 
 p {
@@ -16,35 +11,14 @@ p {
     color: #999;
 }
 
-a,
-a:hover,
-a:focus {
-    color: inherit;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
-.navbar {
-    padding: 15px 10px;
-    border: none;
-    border-radius: 0;
-    margin-bottom: 40px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-
-/* ---------------------------------------------------
-    QUESTION
------------------------------------------------------ */
-
-/* ---------------------------------------------------
-    SIDEBAR STYLE
------------------------------------------------------ */
-
 .wrapper {
     display: flex;
     width: 100%;
 }
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
 
 #sidebar {
     width: 300px;
@@ -61,14 +35,6 @@ a:focus {
     margin-left: -300px;
 }
 
-.btn-check {
-    min-width: 300px;
-}
-
-#sidebar i:hover {
-    color: #0d6efd;
-}
-
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -81,6 +47,7 @@ a:focus {
     position: absolute;
     top: 0;
     right: 0;
+    background: #f4f4f4;
 }
 
 #content.active {
