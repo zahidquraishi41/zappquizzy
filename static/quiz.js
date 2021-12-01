@@ -12,6 +12,7 @@ const qnButtonsDiv = document.querySelector('.qn-buttons')
 
 const questionDiv = document.querySelector('.question')
 const optionsDiv = document.querySelector('.options')
+const explanationDiv = document.querySelector('.explanation')
 
 const questionsAttemptedDiv = document.querySelector('#questionsAttemptedBody')
 const finishQuizBtn = document.querySelector('#finishQuiz')
@@ -49,16 +50,31 @@ const changeQuestion = questionNumber => {
         selectedOption = answers[currentQuestionsNumber]
 
     question.options.forEach((option) => {
-        const addAttribute = (elem, attr) => input.substring(0, elem.length - 1) + ' ' + attr + input.substring(elem.length - 1)
+        const addAttribute = (elem, attr) => elem.substring(0, elem.indexOf('>')) + ` ${attr}` + elem.substring(elem.indexOf('>'))
         input = `<input type="radio" class="btn-check" name="options" id="${option}" value="${option}" autocomplete="off">`
         if (finishQuizBtn.style.visibility == 'hidden')
             input = addAttribute(input, 'disabled')
         if (option[0] == selectedOption)
             input = addAttribute(input, 'checked')
-        label = `<label class="btn btn-outline-primary py-3 text-start option" for="${option}">${option}</label> <br>`
+
+        label = document.createElement('label')
+        label.classList.add('btn', 'py-3', 'text-start', 'option')
+        label.htmlFor = option
+        label.textContent = option
+
+        // coloring options if quiz is finished
+        if (finishQuizBtn.style.visibility == 'hidden') {
+            if (option[0] == selectedOption && userAnswers.get(currentSection)[currentQuestionsNumber] != question.answer)
+                label.classList.add('btn-danger')
+            else if (option[0] == question.answer)
+                label.classList.add('btn-success')
+            else label.classList.add('btn-outline-primary')
+            explanationDiv.innerHTML = `<p class="text-dark question"> ${question.explanation} </p>`
+        } else label.classList.add('btn-outline-primary')
 
         optionsDiv.innerHTML += input
-        optionsDiv.innerHTML += label
+        optionsDiv.append(label)
+        optionsDiv.innerHTML += '<br>'
     })
     updateSidebar()
 }
