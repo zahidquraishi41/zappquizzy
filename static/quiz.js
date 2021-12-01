@@ -1,3 +1,37 @@
+/*  questions: json
+{
+    '$section_name': [
+        0: {
+            'question': '$question'
+            'options': '$options'
+            'answer': '$answer'
+            'explanation': '$explanation'
+        },
+        ...
+    ],
+    ...
+}
+*/
+
+/*  quiz_history: json
+{
+    '$(date time)': {
+        'date': '$date',
+        'time': '$time',
+        'average': '$average'
+        'scores': [
+            0: {
+                'section': '$section',
+                'attempted': '$attempted',
+                'total': '$total'
+            },
+            ...
+        ]
+    },
+    ...
+}
+ */
+
 const sections = Object.keys(questions)
 let currentSection = sections[0]
 let currentQuestionsNumber = 0
@@ -105,6 +139,51 @@ const prevSection = () => {
     changeQuestion(0)
 }
 
+const updateScore = () => {
+    const date = new Date()
+    const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()]
+    const [hour, minutes, seconds] = [date.getHours(), date.getMinutes(), date.getSeconds()]
+    const ddmmyyyy = `${day}-${month}-${year}`
+    const hhmmss = `${hour}:${minutes}:${seconds}`
+
+    let quiz_hist = localStorage.getItem('quiz_hist')
+    if (!quiz_hist) quiz_hist = {}
+    else quiz_hist = JSON.parse(quiz_hist)
+
+    let average = 0
+    let scores = []
+    sections.forEach(section => {
+        let attempted = 0
+        const total = questions[section].length
+        userAnswers.get(section).forEach(a => attempted += (a != null))
+
+        let score = 0
+        const inc = (1.0 / questions[section].length) * 100
+        const answers = userAnswers.get(section)
+        answers.forEach((a, i) => score += inc * (a == questions[section][i].answer)) // DAWMM
+        average += score
+        score = `${score.toFixed(2)}%`
+
+        scores.push({
+            'section': section,
+            'attempted': attempted,
+            'total': total,
+            'score': score
+        })
+    })
+    average = (average / (sections.length * 100)) * 100
+    average = average.toFixed(2)
+
+    quiz_hist[`${ddmmyyyy} ${hhmmss}`] = {
+        'average': average,
+        'date': ddmmyyyy,
+        'time': hhmmss,
+        'scores': scores
+    }
+    scores_json = JSON.stringify(quiz_hist)
+    localStorage.setItem(`${ddmmyyyy} ${hhmmss}`, scores_json)
+}
+
 const displayAttempts = () => {
     // temp code to show answer
     temp = []
@@ -143,6 +222,7 @@ const resetAndGoHome = () => {
 const displayScoreModal = () => {
     finishQuizBtn.style.visibility = 'hidden'
     scoreDiv.innerHTML = ''
+    updateScore()
     sections.forEach(section => {
         let score = 0
         const inc = (1.0 / questions[section].length) * 100
