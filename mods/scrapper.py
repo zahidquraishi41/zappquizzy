@@ -197,22 +197,22 @@ def scrap_section(url: str) -> list[tuple[str, str, str, str]]:
                 break
             i -= 1
 
-        question = ''
-        options = []
+        filtered_data = ['']
         for e1 in data:
             if '\n' in e1:
                 for e2 in e1.split('\n'):
                     if e2.startswith(('a)', 'b)', 'c)', 'd)')):
-                        options.append(e2)
+                        filtered_data.append(e2)
                     else:
-                        question += '\n' + e2
+                        filtered_data.append(filtered_data.pop() + '\n' + e2)
             else:
                 if e1.startswith(('a)', 'b)', 'c)', 'd)')):
-                    options.append(e1)
+                    filtered_data.append(e1)
                 else:
-                    question += '\n' + e1
+                    filtered_data.append(filtered_data.pop() + '\n' + e1)
+        question = filtered_data[0].strip('\n')
+        options = filtered_data[1:]
         options = '\n'.join(options)
-
         answer = answer_div.text.split(
             '\n', 1)[0].replace('Answer:', '').strip()
         explanation = answer_div.text.split('\n', 1)[1]
