@@ -56,16 +56,24 @@ const scoreDiv = document.querySelector('#scoreBody')
 const updateSidebar = () => {
     sectionNameSpan.textContent = currentSection
     qnButtonsDiv.innerHTML = ''
-    questions[currentSection].forEach((e, i) => {
+    questions[currentSection].forEach((question_dict, i) => {
         const qnButton = document.createElement('a')
         qnButton.classList.add('btn', 'm-1', 'text-white', 'qn-button')
         qnButton.textContent = i + 1
         qnButton.onclick = () => changeQuestion(i)
-        if (currentQuestionsNumber == i) qnButton.classList.add('btn-primary')
-        else {
-            const answers = userAnswers.get(currentSection)
-            if (answers[i] != null) qnButton.classList.add('btn-info')
-            else qnButton.classList.add('btn-outline-primary')
+
+        // coloring options if quiz is finished
+        if (finishQuizBtn.style.visibility == 'hidden') {
+            if (userAnswers.get(currentSection)[i] == question_dict.answer)
+                qnButton.classList.add('btn-success')
+            else qnButton.classList.add('btn-danger')
+        } else {
+            if (currentQuestionsNumber == i) qnButton.classList.add('btn-primary')
+            else {
+                const answers = userAnswers.get(currentSection)
+                if (answers[i] != null) qnButton.classList.add('btn-info')
+                else qnButton.classList.add('btn-outline-primary')
+            }
         }
         qnButtonsDiv.append(qnButton)
     })
