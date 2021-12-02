@@ -94,7 +94,7 @@ const changeQuestion = questionNumber => {
         label = document.createElement('label')
         label.classList.add('btn', 'py-3', 'text-start', 'option')
         label.htmlFor = option
-        label.textContent = option
+        label.innerHTML = `<span>${option}</span>`
 
         // coloring options if quiz is finished
         if (finishQuizBtn.style.visibility == 'hidden') {

@@ -211,24 +211,12 @@ def split_options(options: str) -> list[str]:
     choices = []
     try:
         for option in options.split('\n'):
-            # when option is "a) 12", option_char will be "a"
-            option_char = option.split(')', 1)[0].strip()
-            if len(option_char) <= 3:
+            if option.startswith(('a)', 'b)', 'c)', 'd)')):
                 choices.append(option)
             else:
-                choices.append(choices.pop() + '\n' + option)
+                choices.append(choices.pop() + '<br>' + option)
     except:
         choices.clear()
-        try:
-            for option in options.split('\n'):
-                # when option is "a. 12", option_char will be "a"
-                option_char = option.split('.', 1)[0].strip()
-                if len(option_char) <= 3:
-                    choices.append(option)
-                else:
-                    choices.append(choices.pop() + '\n' + option)
-        except:
-            pass
     if choices:
         return choices
     return [options]
