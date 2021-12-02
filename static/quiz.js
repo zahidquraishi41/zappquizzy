@@ -44,7 +44,7 @@ sections.forEach(section => {
 const sectionNameSpan = document.querySelector('.section-name')
 const qnButtonsDiv = document.querySelector('.qn-buttons')
 
-const questionDiv = document.querySelector('.question')
+const questionPre = document.querySelector('.question')
 const optionsDiv = document.querySelector('.options')
 const explanationDiv = document.querySelector('.explanation')
 
@@ -57,17 +57,17 @@ const updateSidebar = () => {
     sectionNameSpan.textContent = currentSection
     qnButtonsDiv.innerHTML = ''
     questions[currentSection].forEach((e, i) => {
-        const elem = document.createElement('a')
-        elem.classList.add('btn', 'm-1', 'text-white', 'qn-button')
-        elem.textContent = i + 1
-        elem.onclick = () => changeQuestion(i)
-        if (currentQuestionsNumber == i) elem.classList.add('btn-primary')
+        const qnButton = document.createElement('a')
+        qnButton.classList.add('btn', 'm-1', 'text-white', 'qn-button')
+        qnButton.textContent = i + 1
+        qnButton.onclick = () => changeQuestion(i)
+        if (currentQuestionsNumber == i) qnButton.classList.add('btn-primary')
         else {
             const answers = userAnswers.get(currentSection)
-            if (answers[i] != null) elem.classList.add('btn-info')
-            else elem.classList.add('btn-outline-primary')
+            if (answers[i] != null) qnButton.classList.add('btn-info')
+            else qnButton.classList.add('btn-outline-primary')
         }
-        qnButtonsDiv.append(elem)
+        qnButtonsDiv.append(qnButton)
     })
 }
 
@@ -75,7 +75,7 @@ const changeQuestion = questionNumber => {
     if (questionNumber == undefined) questionNumber = currentQuestionsNumber
     currentQuestionsNumber = questionNumber
     const question = questions[currentSection][questionNumber]
-    questionDiv.innerHTML = `<p class="text-dark question"> ${question.question} </p>`
+    questionPre.textContent = question.question
     optionsDiv.innerHTML = ``
 
     let selectedOption = -1
@@ -91,10 +91,13 @@ const changeQuestion = questionNumber => {
         if (option[0] == selectedOption)
             input = addAttribute(input, 'checked')
 
-        label = document.createElement('label')
+        const label = document.createElement('label')
         label.classList.add('btn', 'py-3', 'text-start', 'option')
         label.htmlFor = option
-        label.innerHTML = `<span>${option}</span>`
+        const pre = document.createElement('pre')
+        pre.textContent = option
+        pre.classList.add('option')
+        label.append(pre)
 
         // coloring options if quiz is finished
         if (finishQuizBtn.style.visibility == 'hidden') {
@@ -103,7 +106,11 @@ const changeQuestion = questionNumber => {
             else if (option[0] == question.answer)
                 label.classList.add('btn-success')
             else label.classList.add('btn-outline-primary')
-            explanationDiv.innerHTML = `<p class="text-dark question"> ${question.explanation} </p>`
+            explanationDiv.innerHTML = ''
+            const explanationPre = document.createElement('pre')
+            explanationPre.classList.add('mt-3')
+            explanationPre.textContent = question.explanation
+            explanationDiv.append(explanationPre)
         } else label.classList.add('btn-outline-primary')
 
         optionsDiv.innerHTML += input
@@ -186,7 +193,7 @@ const updateScore = () => {
 
 const displayAttempts = () => {
     // temp code to show answer
-    temp = []
+    const temp = []
     sections.forEach(section => {
         ans = []
         questions[section].forEach(e => ans.push(e.answer))
@@ -229,6 +236,7 @@ const displayScoreModal = () => {
         const answers = userAnswers.get(section)
         answers.forEach((a, i) => score += inc * (a == questions[section][i].answer)) // DAWMM
         score = score.toFixed(2)
+        let scoreSpan = ''
         if (score < 25.0)
             scoreSpan = `<span class='text-danger'>${score}%</span>`
         else if (score < 50.0)

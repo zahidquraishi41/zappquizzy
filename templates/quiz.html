@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
    integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <!-- Our Custom CSS -->
-<link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='quiz.css') }}">
 <!-- Scrollbar Custom CSS -->
 <link rel="stylesheet"
    href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
@@ -87,15 +87,16 @@
             <i class="fas fa-align-left"></i>
          </label><br> -->
 
-         <div class="question">
+         <pre class="question">
             <!-- HERE QUESTION WILL BE INJECTED BY JS -->
-         </div>
+         </pre>
          <div class="options">
             <!-- HERE OPTIONS WILL BE INJECTED BY JS -->
          </div>
-         <div class="explanation mt-3">
-            <!-- EXPLANATION WILL BE INJECTED HERE -->
+         <div class="explanation">
+            
          </div>
+
       </div>
 
       <!-- Prev, Next, Finish Buttons -->

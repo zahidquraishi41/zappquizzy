@@ -214,7 +214,7 @@ def split_options(options: str) -> list[str]:
             if option.startswith(('a)', 'b)', 'c)', 'd)')):
                 choices.append(option)
             else:
-                choices.append(choices.pop() + '<br>' + option)
+                choices.append(choices.pop() + '\n' + option)
     except:
         choices.clear()
     if choices:
@@ -227,7 +227,7 @@ def code_formatter(code: str) -> str:
     # removing '{' from new line and putting it to function declaration line
     for block in code.split('\n'):
         if block == '{' and formatted:
-            formatted.append(formatted.pop() + block)
+            formatted.append(formatted.pop() + ' ' + block)
         else:
             formatted.append(block)
 
@@ -238,10 +238,10 @@ def code_formatter(code: str) -> str:
             while j < len(formatted):
                 if formatted[j] and formatted[j][-1] == '}':
                     break
-                formatted[j] = '&nbsp;' * 3 + formatted[j]
+                formatted[j] = ' ' * 3 + formatted[j]
                 j += 1
 
-    return '<br>'.join(formatted)
+    return '\n'.join(formatted)
 
 
 def to_dict(section_name, questions: list[tuple[str, str, str, str]]) -> dict:
