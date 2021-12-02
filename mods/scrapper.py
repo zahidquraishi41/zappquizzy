@@ -178,7 +178,7 @@ def scrap_section(url: str) -> list[tuple[str, str, str, str]]:
 
     mcqs = []
     main_list = list(main_content.find_all(recursive=False))
-    answers_div = main_content.find_all('div', class_='collapseomatic_content')
+    answers_div = main_content.find_all('div', class_='collapseomatic_content', recursive=False)
     for answer_div in answers_div:
         i = main_list.index(answer_div) - 1
         data = []
@@ -186,8 +186,8 @@ def scrap_section(url: str) -> list[tuple[str, str, str, str]]:
             elem = main_list[i]
             if elem.name == 'div' and elem.has_attr('class') and 'hk1_style-wrap5' in elem['class']:
                 code = []
-                for li in elem.find_all('li'):
-                    code.append(li.text.strip())
+                for pre in elem.find_all('pre'):
+                    code.append(pre.text.strip())
                 data.insert(0, '\n'.join(code))
             else:
                 if elem.text.strip():
