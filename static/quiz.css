@@ -25,11 +25,6 @@ pre.option {
     color: inherit;
 }
 
-.wrapper {
-    display: flex;
-    width: 100%;
-}
-
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
@@ -47,6 +42,10 @@ pre.option {
 
 #sidebar.active {
     margin-left: -300px;
+}
+
+.fa-arrow-left:hover, .fa-arrow-right:hover {
+    color: #007bff;
 }
 
 /* ---------------------------------------------------

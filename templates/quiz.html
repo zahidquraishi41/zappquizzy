@@ -16,7 +16,7 @@
 {% endblock stylesheet %}
 
 {% block main %}
-<div class="wrapper">
+<div class="d-flex w-100">
    <!-- Sidebar  -->
    <nav id="sidebar" class="bg-dark p-3">
       <div class="row align-items-center mb-3">
@@ -24,7 +24,7 @@
          <span class="fs-5 section-name text-center col-6">
             <!-- SECTION NAME WILL BE INJECTED HERE -->
          </span>
-         <i class="fas fa-arrow-right col-3 h-100" onclick="nextSection()"></i>
+         <i class="fas fa-arrow-right col-3 align-middle" onclick="nextSection()"></i>
       </div>
 
       <div class="qn-buttons">
@@ -76,12 +76,28 @@
          </div>
       </div>
 
+      <div class="nav mb-3 row">
+         <div class="col-6">
+            <button class="btn btn-success" id="sidebarCollapse">
+               <i class="fas fa-align-left"></i>
+            </button>
+         </div>
+
+         <div id="timer" class="col-6 text-end invisible">
+            <p class="time-left bg-secondary d-inline p-2 border border-info rounded">
+               <span class="me-2 text-white">Time Left</span>
+               <span class="p-1 border border-danger rounded bg-light">
+                  <span id="tl-hours">0</span>H
+                  <span id="tl-minutes">0</span>M
+                  <span id="tl-seconds">0</span>S
+               </span>
+            </p>
+         </div>
+      </div>
+
+
       <!-- Question And Options -->
       <div class="content-box">
-         <button class="btn btn-success" id="sidebarCollapse">
-            <i class="fas fa-align-left"></i>
-         </button>
-
          <!-- <input type="checkbox" class="btn-check" id="sidebarCollapse" autocomplete="off">
          <label class="btn btn-outline-success" for="sidebarCollapse">
             <i class="fas fa-align-left"></i>

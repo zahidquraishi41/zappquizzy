@@ -41,6 +41,13 @@ sections.forEach(section => {
     userAnswers.set(section, arr)
 })
 
+const USE_TIMER = true
+let questionsCount = 0
+sections.forEach(section => questionsCount += questions[section].length)
+const TIME_PER_QUESTION = 20 // in seconds
+const TOTAL_TIME = TIME_PER_QUESTION * questionsCount // in seconds
+let timeLeft = TOTAL_TIME // in seconds
+
 const sectionNameSpan = document.querySelector('.section-name')
 const qnButtonsDiv = document.querySelector('.qn-buttons')
 
@@ -51,6 +58,11 @@ const explanationDiv = document.querySelector('.explanation')
 const questionsAttemptedDiv = document.querySelector('#questionsAttemptedBody')
 const finishQuizBtn = document.querySelector('#finishQuiz')
 const scoreDiv = document.querySelector('#scoreBody')
+
+const timerDiv = document.querySelector('#timer')
+const tlHours = document.querySelector('#tl-hours')
+const tlMinutes = document.querySelector('#tl-minutes')
+const tlSeconds = document.querySelector('#tl-seconds')
 
 
 const updateSidebar = () => {
@@ -134,7 +146,7 @@ const nextQuestion = () => {
 }
 
 const prevQuestion = () => {
-    if (currentQuestionsNumber > 1)
+    if (currentQuestionsNumber > 0)
         changeQuestion((currentQuestionsNumber - 1) % questions[currentSection].length)
 }
 
@@ -267,9 +279,39 @@ const displayScoreModal = () => {
 }
 
 optionsDiv.addEventListener('click', e => {
-    if (e.target.nodeName != 'LABEL') return
+    console.log(e)
+    console.log(e.target)
+    if (e.target.nodeName != 'INPUT') return
     const answers = userAnswers.get(currentSection)
-    answers[currentQuestionsNumber] = e.target.textContent[0]
+    answers[currentQuestionsNumber] = e.target.value[0]
 })
 
+const updateTimer = timerInterval => {
+    if (timeLeft == 0) {
+        displayScoreModal()
+        clearInterval(timerInterval)
+    }
+    let temp = timeLeft
+    let hours = Math.floor(temp / 3600)
+    temp -= (hours * 3600)
+
+    let minutes = Math.floor(temp / 60)
+    temp -= (minutes * 60)
+
+    let seconds = temp
+
+    tlHours.textContent = hours
+    tlMinutes.textContent = minutes
+    tlSeconds.textContent = seconds
+    timeLeft -= 1
+}
+
 changeQuestion(0)
+if (USE_TIMER) {
+    updateTimer()
+    timerDiv.classList.remove('invisible')
+    timeLeft += 1
+    let timerInterval = setInterval(() => {
+        updateTimer(timerInterval)
+    }, 1000);
+}
