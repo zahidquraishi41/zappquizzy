@@ -3,6 +3,10 @@ from flask import request
 from mods import helper
 import json
 from mods.database import SessionDB
+import random
+import webbrowser
+import threading
+
 app = Flask(__name__)
 session = SessionDB()
 '''TODO
@@ -117,4 +121,7 @@ def error():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = random.randint(5000, 5999)
+    url = f'http://127.0.0.1:{port}/'
+    threading.Timer(1.25, lambda: webbrowser.open(url)).start()
+    app.run(port=port, debug=False)
