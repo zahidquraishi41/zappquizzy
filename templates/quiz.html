@@ -76,15 +76,13 @@
          </div>
       </div>
 
-      <div class="nav mb-3 row">
-         <div class="col-6">
-            <button class="btn btn-success" id="sidebarCollapse">
-               <i class="fas fa-align-left"></i>
-            </button>
-         </div>
+      <div class="mb-3 p-1 d-flex overflow-auto">
+         <button class="btn btn-success" id="sidebarCollapse">
+            <i class="fas fa-align-left"></i>
+         </button>
 
-         <div id="timer" class="col-6 text-end invisible">
-            <p class="time-left bg-secondary d-inline p-2 border border-info rounded">
+         <div id="timer" class="invisible ml-auto">
+            <p class="time-left bg-secondary p-2 border border-info rounded d-inline">
                <span class="me-2 text-white">Time Left</span>
                <span class="p-1 border border-danger rounded bg-light">
                   <span id="tl-hours">0</span>H
@@ -110,19 +108,16 @@
             <!-- HERE OPTIONS WILL BE INJECTED BY JS -->
          </div>
          <div class="explanation">
-            
+
          </div>
 
       </div>
 
       <!-- Prev, Next, Finish Buttons -->
-      <div class="position-relative my-3">
+      <div class="d-flex my-3">
          <button class="btn btn-primary px-3 me-2" type="button" onclick="prevQuestion()">Prev</button>
          <button class="btn btn-primary px-3" type="button" onclick="nextQuestion()">Next</button>
-         <div class="position-absolute top-0 end-0">
-            <button class="btn btn-danger px-3" type="button" id="finishQuiz"
-               onclick="displayAttempts()">Finish</button>
-         </div>
+         <button class="btn btn-danger px-3 ml-auto" type="button" id="finishQuiz" onclick="displayAttempts()">Finish</button>
       </div>
    </div>
 

@@ -279,8 +279,6 @@ const displayScoreModal = () => {
 }
 
 optionsDiv.addEventListener('click', e => {
-    console.log(e)
-    console.log(e.target)
     if (e.target.nodeName != 'INPUT') return
     const answers = userAnswers.get(currentSection)
     answers[currentQuestionsNumber] = e.target.value[0]
@@ -290,7 +288,11 @@ const updateTimer = timerInterval => {
     if (timeLeft == 0) {
         displayScoreModal()
         clearInterval(timerInterval)
+    } else if (finishQuizBtn.style.visibility == 'hidden') {
+        clearInterval(timerInterval)
+        return
     }
+
     let temp = timeLeft
     let hours = Math.floor(temp / 3600)
     temp -= (hours * 3600)
