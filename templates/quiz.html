@@ -18,7 +18,7 @@
 {% block main %}
 <div class="d-flex w-100">
    <!-- Sidebar  -->
-   <nav id="sidebar" class="bg-dark p-3">
+   <nav id="sidebar" class="p-3">
       <div class="row align-items-center mb-3">
          <i class="fas fa-arrow-left col-3 align-middle" onclick="prevSection()"></i>
          <span class="fs-5 section-name text-center col-6">
@@ -33,7 +33,7 @@
    </nav>
 
    <!-- Page Content  -->
-   <div id="content">
+   <div id="content" class="p-4">
       <!-- Questions Attempted Modal -->
       <div class="modal fade" id="questionsAttemptedModal" tabindex="-1" aria-labelledby="questionsAttemptedModalLabel"
          aria-hidden="true">
@@ -77,14 +77,17 @@
       </div>
 
       <div class="mb-3 p-1 d-flex overflow-auto">
-         <button class="btn btn-success" id="sidebarCollapse">
+         <button class="btn btn-success me-2" id="sidebarCollapse">
             <i class="fas fa-align-left"></i>
+         </button>
+         <button class="btn btn-primary" onclick="toggleDarkMode()">
+            <i class="fas fa-moon toggle-dark"></i>
          </button>
 
          <div id="timer" class="invisible ml-auto">
             <p class="time-left bg-secondary p-2 border border-info rounded d-inline">
                <span class="me-2 text-white">Time Left</span>
-               <span class="p-1 border border-danger rounded bg-light">
+               <span class="p-1 border border-danger rounded bg-light text-dark">
                   <span id="tl-hours">0</span>H
                   <span id="tl-minutes">0</span>M
                   <span id="tl-seconds">0</span>S
@@ -101,7 +104,7 @@
             <i class="fas fa-align-left"></i>
          </label><br> -->
 
-         <pre class="question">
+         <pre class="question snm text-dark">
             <!-- HERE QUESTION WILL BE INJECTED BY JS -->
          </pre>
          <div class="options">
@@ -117,7 +120,8 @@
       <div class="d-flex my-3">
          <button class="btn btn-primary px-3 me-2" type="button" onclick="prevQuestion()">Prev</button>
          <button class="btn btn-primary px-3" type="button" onclick="nextQuestion()">Next</button>
-         <button class="btn btn-danger px-3 ml-auto" type="button" id="finishQuiz" onclick="displayAttempts()">Finish</button>
+         <button class="btn btn-danger px-3 ml-auto" type="button" id="finishQuiz"
+            onclick="displayAttempts()">Finish</button>
       </div>
    </div>
 

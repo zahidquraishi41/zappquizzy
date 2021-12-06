@@ -38,6 +38,7 @@ pre.option {
     z-index: 999;
     color: #fff;
     transition: all 0.3s;
+    background: #2d2926ff;
 }
 
 #sidebar.active {
@@ -45,7 +46,7 @@ pre.option {
 }
 
 .fa-arrow-left:hover, .fa-arrow-right:hover {
-    color: #007bff;
+    color: #adb5bd;
 }
 
 /* ---------------------------------------------------
@@ -54,13 +55,12 @@ pre.option {
 
 #content {
     width: calc(100% - 300px);
-    padding: 40px;
     min-height: 100vh;
     transition: all 0.3s;
     position: absolute;
     top: 0;
     right: 0;
-    background: #f4f4f4;
+    overflow: hidden;
 }
 
 #content.active {

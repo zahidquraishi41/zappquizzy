@@ -128,7 +128,7 @@ const changeQuestion = questionNumber => {
             else label.classList.add('btn-outline-primary')
             explanationDiv.innerHTML = ''
             const explanationPre = document.createElement('pre')
-            explanationPre.classList.add('mt-3')
+            explanationPre.classList.add('mt-3', 'snm', 'text-dark')
             explanationPre.textContent = question.explanation
             explanationDiv.append(explanationPre)
         } else label.classList.add('btn-outline-primary')
@@ -138,6 +138,7 @@ const changeQuestion = questionNumber => {
         optionsDiv.innerHTML += '<br>'
     })
     updateSidebar()
+    reApplyTheme()
 }
 
 const nextQuestion = () => {

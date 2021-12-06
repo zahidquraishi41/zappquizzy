@@ -11,6 +11,12 @@ function toggleDarkMode() {
     else lightMode()
 }
 
+function reApplyTheme() {
+    if (localStorage.getItem('use-dark-mode') == 'true')
+        darkMode()
+    else lightMode()
+}
+
 function darkMode() {
     const body = document.querySelector('body')
     const cls = body.classList
@@ -18,8 +24,14 @@ function darkMode() {
     cls.remove('text-dark', 'bg-light')
 
     const selectableButtons = document.querySelectorAll('.btn')
-    if (selectableButtons != null)
-        selectableButtons.forEach(button => button.classList.add('text-light'))
+    selectableButtons.forEach(button => button.classList.add('text-light'))
+    
+    const snms = document.querySelectorAll('.snm')
+    snms.forEach(elem => {
+        elem.classList.remove('text-dark')
+        elem.classList.add('text-light')
+    })
+    
     localStorage.setItem('use-dark-mode', 'true')
 }
 
@@ -30,9 +42,14 @@ function lightMode() {
     cls.add('text-dark', 'bg-light')
 
     const selectableButtons = document.querySelectorAll('.btn')
-    if (selectableButtons != null) {
-        selectableButtons.forEach(button => button.classList.remove('text-light'))
-    }
+    selectableButtons.forEach(button => button.classList.remove('text-light'))
+
+
+    const snms = document.querySelectorAll('.snm')
+    snms.forEach(elem => {
+        elem.classList.add('text-dark')
+        elem.classList.remove('text-light')
+    })
 
     localStorage.setItem('use-dark-mode', 'false')
 }
