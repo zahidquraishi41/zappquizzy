@@ -4,8 +4,9 @@
 <!-- prev_url: str -->
 
 {% extends "base.html" %}
+
 {% block content %}
-<h1 class="display-3 pt-5">{{ title }}</h1>
+<h1 class="display-3">{{ title }}</h1>
 <hr class="mb-5">
 
 <form method="post">
@@ -18,7 +19,8 @@
         </div>
         {% endfor %}
     </div>
-    <button class="btn btn-primary px-3 me-2" type="button" onclick="window.location.href='{{ prev_url }}'">Prev</button>
+    <button class="btn btn-primary px-3 me-2" type="button"
+        onclick="window.location.href='{{ prev_url }}'">Prev</button>
     <button class="btn btn-primary px-3" type="submit">Next</button>
 </form>
 <div class="m-5"></div>

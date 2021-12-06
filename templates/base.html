@@ -19,11 +19,19 @@
     <title>{{ title }} - Quizzy </title>
 </head>
 
-<body>
+<body class="text-dark bg-light">
     {% block main %} {% endblock %}
     <div class="container">
+        <div class="nav d-flex mt-3">
+            <button class="btn btn-primary ms-auto" onclick="toggleDarkMode()">
+                <i class="fas fa-moon toggle-dark"></i>
+            </button>
+        </div>
         {% block content %} {% endblock %}
     </div>
+
+    <!-- Dark Mode -->
+    <script src="{{ url_for('static', filename='darkmode.js') }}"></script>
 
     <!-- FontAwesome JS -->
     <script src="https://kit.fontawesome.com/7767b3e406.js" crossorigin="anonymous"></script>
