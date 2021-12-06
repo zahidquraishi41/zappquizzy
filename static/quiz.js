@@ -70,7 +70,7 @@ const updateSidebar = () => {
     qnButtonsDiv.innerHTML = ''
     questions[currentSection].forEach((question_dict, i) => {
         const qnButton = document.createElement('a')
-        qnButton.classList.add('btn', 'm-1', 'text-white', 'qn-button')
+        qnButton.classList.add('btn', 'm-1', 'qn-button')
         qnButton.textContent = i + 1
         qnButton.onclick = () => changeQuestion(i)
 
@@ -128,7 +128,7 @@ const changeQuestion = questionNumber => {
             else label.classList.add('btn-outline-primary')
             explanationDiv.innerHTML = ''
             const explanationPre = document.createElement('pre')
-            explanationPre.classList.add('mt-3', 'snm', 'text-dark')
+            explanationPre.classList.add('mt-3', 'snmt')
             explanationPre.textContent = question.explanation
             explanationDiv.append(explanationPre)
         } else label.classList.add('btn-outline-primary')

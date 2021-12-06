@@ -1,8 +1,8 @@
-const darkTexts = document.querySelector('.text-dark')
-const lightTexts = document.querySelector('.text-light')
-
-const darkBackground = document.querySelector('.bg-dark')
-const lightBackground = document.querySelector('.bg-light')
+/* USAGE
+add snmt to apply darkmode to text
+add snmb to apply darkmode to background
+add snm to apply darkmode to both
+*/
 
 function toggleDarkMode() {
     const body = document.querySelector('body')
@@ -27,11 +27,21 @@ function darkMode() {
     selectableButtons.forEach(button => button.classList.add('text-light'))
     
     const snms = document.querySelectorAll('.snm')
-    snms.forEach(elem => {
-        elem.classList.remove('text-dark')
-        elem.classList.add('text-light')
+    snms.forEach(snm => {
+        snm.classList.add('text-light')
+        snm.classList.add('bg-dark')
     })
-    
+
+    const snmts = document.querySelectorAll('.snmt')
+    snmts.forEach(snm => {
+        snm.classList.add('text-light')
+    })
+
+    const snmbs = document.querySelectorAll('.snmb')
+    snmbs.forEach(snm => {
+        snm.classList.add('bg-dark')
+    })
+
     localStorage.setItem('use-dark-mode', 'true')
 }
 
@@ -43,12 +53,21 @@ function lightMode() {
 
     const selectableButtons = document.querySelectorAll('.btn')
     selectableButtons.forEach(button => button.classList.remove('text-light'))
-
-
+    
     const snms = document.querySelectorAll('.snm')
-    snms.forEach(elem => {
-        elem.classList.add('text-dark')
-        elem.classList.remove('text-light')
+    snms.forEach(snm => {
+        snm.classList.remove('text-light')
+        snm.classList.remove('bg-dark')
+    })
+    
+    const snmts = document.querySelectorAll('.snmt')
+    snmts.forEach(snm => {
+        snm.classList.remove('text-light')
+    })
+
+    const snmbs = document.querySelectorAll('.snmb')
+    snmbs.forEach(snm => {
+        snm.classList.remove('bg-dark')
     })
 
     localStorage.setItem('use-dark-mode', 'false')
