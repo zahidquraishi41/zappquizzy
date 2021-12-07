@@ -3,9 +3,7 @@ from flask import request
 from mods import helper
 import json
 from mods.database import SessionDB
-import random
 import webbrowser
-import threading
 
 app = Flask(__name__)
 session = SessionDB()
@@ -124,5 +122,5 @@ if __name__ == '__main__':
     # port = random.randint(5000, 5999)
     port = 5000
     url = f'http://127.0.0.1:{port}/'
-    threading.Timer(1.25, lambda: webbrowser.open(url)).start()
+    webbrowser.open(url)
     app.run(port=port, debug=True)
