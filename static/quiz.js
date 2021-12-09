@@ -32,13 +32,28 @@
 }
  */
 
+/* markedQuestions: Map
+    {
+        $section_name: [
+            boolean, 
+            ...
+        ],
+        ...
+    }
+ */
+
 const sections = Object.keys(questions)
 let currentSection = sections[0]
 let currentQuestionsNumber = 0
 let userAnswers = new Map()
+let markedQuestions = new Map()
 sections.forEach(section => {
     let arr = new Array(questions[section].length).fill(null)
     userAnswers.set(section, arr)
+})
+sections.forEach(section => {
+    let arr = new Array(questions[section].length).fill(false)
+    markedQuestions.set(section, arr)
 })
 
 const USE_TIMER = true
@@ -64,6 +79,7 @@ const tlHours = document.querySelector('#tl-hours')
 const tlMinutes = document.querySelector('#tl-minutes')
 const tlSeconds = document.querySelector('#tl-seconds')
 
+const markForReviewBtn = document.querySelector('#markForReview')
 
 const updateSidebar = () => {
     sectionNameSpan.textContent = currentSection
@@ -81,9 +97,12 @@ const updateSidebar = () => {
             else qnButton.classList.add('btn-danger')
         } else {
             if (currentQuestionsNumber == i) qnButton.classList.add('btn-primary')
+            else if (markedQuestions.get(currentSection)[i]) {
+                qnButton.classList.add('btn-warning')
+            }
             else {
                 const answers = userAnswers.get(currentSection)
-                if (answers[i] != null) qnButton.classList.add('btn-info')
+                if (answers[i] != null) qnButton.classList.add('btn-secondary')
                 else qnButton.classList.add('btn-outline-primary')
             }
         }
@@ -138,6 +157,10 @@ const changeQuestion = questionNumber => {
         optionsDiv.innerHTML += '<br>'
     })
     updateSidebar()
+    if (markedQuestions.get(currentSection)[currentQuestionsNumber])
+        markForReviewBtn.textContent = 'Remove From Review'
+    else
+        markForReviewBtn.textContent = 'Mark From Review'
     reApplyTheme()
 }
 
@@ -277,6 +300,15 @@ const displayScoreModal = () => {
     })
     $("#questionsAttemptedModal").modal("hide");
     $("#scoreModal").modal("show");
+}
+
+const markForReview = () => {
+    isMaked = markedQuestions.get(currentSection)[currentQuestionsNumber]
+    markedQuestions.get(currentSection)[currentQuestionsNumber] = !isMaked
+    if (markedQuestions.get(currentSection)[currentQuestionsNumber])
+        markForReviewBtn.textContent = 'Remove From Review'
+    else
+        markForReviewBtn.textContent = 'Mark Fom Review'
 }
 
 optionsDiv.addEventListener('click', e => {
