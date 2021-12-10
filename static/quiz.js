@@ -247,22 +247,25 @@ const displayAttempts = () => {
     console.log(temp)
     // end of temp code
 
-    questionsAttemptedDiv.innerHTML = ''
+    let attemptsTable = ''
+    if (localStorage.getItem('use-dark-mode') == 'true')
+        attemptsTable = `<table class="table table-dark table-striped"><tbody>`
+    else attemptsTable = `<table class="table table-striped"><tbody>`
+
     sections.forEach(section => {
         let attempted = 0
         const total = questions[section].length
         const answers = userAnswers.get(section)
         answers.forEach(a => attempted += (a != null)) // DAWM
-        questionsAttemptedDiv.innerHTML += `
-        <div class="row mb-2">
-            <div class="col-md-6">
-                <span>${section}</span>
-            </div>
-            <div class="col-md-6 text-right">
-                <span>${attempted}/${total}</span>
-            </div>
-        </div>`
+        attemptsTable += `
+        <tr>
+            <td colspan="3">${section}</td>
+            <td>${attempted}/${total}</td>
+        </tr>`
     })
+    attemptsTable += `</tbody></table>`
+    questionsAttemptedDiv.innerHTML = attemptsTable
+
     $("#questionsAttemptedModal").modal("show");
 }
 
@@ -274,56 +277,51 @@ const resetAndGoHome = () => {
 const displayScoreModal = () => {
     finishQuizBtn.style.visibility = 'hidden'
     markForReviewBtn.style.visibility = 'hidden'
-    scoreDiv.innerHTML = ''
     updateScore()
+
+    let scoreTable = ''
+    if (localStorage.getItem('use-dark-mode') == 'true')
+        scoreTable = `<table class="table table-dark table-striped"><tbody>`
+    else scoreTable = `<table class="table table-striped"><tbody>`
+
     sections.forEach(section => {
         let score = 0
         const inc = (1.0 / questions[section].length) * 100
         const answers = userAnswers.get(section)
         answers.forEach((a, i) => score += inc * (a == questions[section][i].answer)) // DAWMM
         score = score.toFixed(2)
-        let scoreSpan = ''
+
         if (score < 25.0)
-            scoreSpan = `<span class='text-danger'>${score}%</span>`
+            scoreCls = 'text-danger'
         else if (score < 50.0)
-            scoreSpan = `<span class='text-info'>${score}%</span>`
+            scoreCls = 'text-info'
         else
-            scoreSpan = `<span class='text-success'>${score}%</span>`
+            scoreCls = 'text-success'
 
-        scoreDiv.innerHTML += `
-        <div class="row mb-2">
-            <div class="col-md-6">
-                <span>${section}</span>
-            </div>
-            <div class="col-md-6 text-right">
-                ${scoreSpan}
-            </div>
-        </div>`
+        scoreTable += `
+        <tr>
+            <td colspan="3">${section}</td>
+            <td class="${scoreCls}">${score}%</td>
+        </tr>`
     })
-
 
     const hist = JSON.parse(localStorage.getItem('quiz_hist'))
     const key = Object.keys(hist).at(-1)
     let average = Number(hist[key]['average'])
     average = average.toFixed(2)
-
-    let scoreSpan = ''
     if (average < 25.0)
-        scoreSpan = `<span class='text-danger'>${average}%</span>`
+        scoreCls = 'text-danger'
     else if (average < 50.0)
-        scoreSpan = `<span class='text-info'>${average}%</span>`
+        scoreCls = 'text-info'
     else
-        scoreSpan = `<span class='text-success'>${average}%</span>`
-    scoreDiv.innerHTML += `
-        <div class="row mb-2">
-            <div class="col-md-6">
-                <span>Average Score</span>
-            </div>
-            <div class="col-md-6 text-right">
-                ${scoreSpan}
-            </div>
-        </div>`
-
+        scoreCls = 'text-success'
+    scoreTable += `
+    <tr>
+        <td colspan="3">Average Score</td>
+        <td class="${scoreCls}">${average}%</td>
+    </tr>`
+    scoreTable += `</tbody></table>`
+    scoreDiv.innerHTML = scoreTable
 
     $("#questionsAttemptedModal").modal("hide");
     changeQuestion()

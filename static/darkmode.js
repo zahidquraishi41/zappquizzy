@@ -25,7 +25,7 @@ function darkMode() {
 
     const selectableButtons = document.querySelectorAll('.btn')
     selectableButtons.forEach(button => button.classList.add('text-light'))
-    
+
     const snms = document.querySelectorAll('.snm')
     snms.forEach(snm => {
         snm.classList.add('text-light')
@@ -43,8 +43,10 @@ function darkMode() {
     })
 
     const faMoon = document.querySelector('.fa-moon')
-    faMoon.classList.remove('fa-moon')
-    faMoon.classList.add('fa-sun')
+    if (faMoon) {
+        faMoon.classList.remove('fa-moon')
+        faMoon.classList.add('fa-sun')
+    }
 
     localStorage.setItem('use-dark-mode', 'true')
 }
@@ -57,13 +59,13 @@ function lightMode() {
 
     const selectableButtons = document.querySelectorAll('.btn')
     selectableButtons.forEach(button => button.classList.remove('text-light'))
-    
+
     const snms = document.querySelectorAll('.snm')
     snms.forEach(snm => {
         snm.classList.remove('text-light')
         snm.classList.remove('bg-dark')
     })
-    
+
     const snmts = document.querySelectorAll('.snmt')
     snmts.forEach(snm => {
         snm.classList.remove('text-light')
@@ -75,8 +77,10 @@ function lightMode() {
     })
 
     const faSun = document.querySelector('.fa-sun')
-    faSun.classList.remove('fa-sun')
-    faSun.classList.add('fa-moon')
+    if (faSun) {
+        faSun.classList.remove('fa-sun')
+        faSun.classList.add('fa-moon')
+    }
 
     localStorage.setItem('use-dark-mode', 'false')
 }
