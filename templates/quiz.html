@@ -48,7 +48,6 @@
                </div>
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <!-- OPEN SECOND DIALOG WHEN CLICK ON FINISH -->
                   <button type="button" class="btn btn-primary" onclick="displayScoreModal()">Finish</button>
                </div>
             </div>
@@ -61,16 +60,14 @@
             <div class="modal-content snm">
                <div class="modal-header">
                   <h5 class="modal-title" id="scoreModalLabel">Final Score</h5>
-                  <!-- <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button> -->
+                  <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                </div>
                <div class="modal-body" id="scoreBody">
                   <!-- LIST OF SECTIONS WITH QUESTIONS ATTEMPTED WILL BE DISPLAYED HERE -->
                </div>
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" onclick="resetAndGoHome()">Home</button>
-                  <!-- OPEN SECOND DIALOG WHEN CLICK ON FINISH -->
-                  <button type="button" class="btn btn-primary" onclick="changeQuestion()"
-                     data-dismiss="modal">Details</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Details</button>
                </div>
             </div>
          </div>
@@ -99,28 +96,23 @@
 
       <!-- Question And Options -->
       <div class="content-box">
-         <!-- <input type="checkbox" class="btn-check" id="sidebarCollapse" autocomplete="off">
-         <label class="btn btn-outline-success" for="sidebarCollapse">
-            <i class="fas fa-align-left"></i>
-         </label><br> -->
-
          <pre class="question snmt">
-            <!-- HERE QUESTION WILL BE INJECTED BY JS -->
+            <!-- QUESTION WILL BE INJECTED HERE -->
          </pre>
          <div class="options">
-            <!-- HERE OPTIONS WILL BE INJECTED BY JS -->
+            <!-- OPTIONS WILL BE INJECTED HERE -->
          </div>
          <div class="explanation">
-
+            <!-- EXPLANATION WILL BE INJECTED HERE -->
          </div>
-
       </div>
 
-      <!-- Prev, Next, Finish Buttons -->
+      <!-- Prev, Next, Mark For Review, Finish Buttons -->
       <div class="d-flex my-3">
          <button class="btn btn-primary px-3 me-2" type="button" onclick="prevQuestion()">Prev</button>
          <button class="btn btn-primary px-3 me-2" type="button" onclick="nextQuestion()">Next</button>
-         <button id="markForReview" class="btn btn-warning px-3 text-dark" type="button" onclick="markForReview()">Mark For Review</button>
+         <button id="markForReview" class="btn btn-warning px-3 text-dark" type="button" onclick="markForReview()">Mark
+            For Review</button>
          <button class="btn btn-danger px-3 ml-auto" type="button" id="finishQuiz"
             onclick="displayAttempts()">Finish</button>
       </div>

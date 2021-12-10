@@ -46,7 +46,7 @@ pre.option {
 }
 
 .fa-arrow-left:hover, .fa-arrow-right:hover {
-    color: #adb5bd;
+    color: var(--bs-primary);
 }
 
 .section-name {

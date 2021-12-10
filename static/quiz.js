@@ -62,6 +62,7 @@ sections.forEach(section => questionsCount += questions[section].length)
 const TIME_PER_QUESTION = 20 // in seconds
 const TOTAL_TIME = TIME_PER_QUESTION * questionsCount // in seconds
 let timeLeft = TOTAL_TIME // in seconds
+const PASSING_AVERAGE = 25
 
 const sectionNameSpan = document.querySelector('.section-name')
 const qnButtonsDiv = document.querySelector('.qn-buttons')
@@ -114,7 +115,7 @@ const changeQuestion = questionNumber => {
     if (questionNumber == undefined) questionNumber = currentQuestionsNumber
     currentQuestionsNumber = questionNumber
     const question = questions[currentSection][questionNumber]
-    questionPre.textContent = `Q${currentQuestionsNumber+1}. ` + question.question
+    questionPre.textContent = `Q${currentQuestionsNumber + 1}. ` + question.question
     optionsDiv.innerHTML = ``
 
     let selectedOption = -1
@@ -232,7 +233,7 @@ const updateScore = () => {
         'scores': scores
     }
     scores_json = JSON.stringify(quiz_hist)
-    localStorage.setItem(`${ddmmyyyy} ${hhmmss}`, scores_json)
+    localStorage.setItem(`quiz_hist`, scores_json)
 }
 
 const displayAttempts = () => {
@@ -272,6 +273,7 @@ const resetAndGoHome = () => {
 
 const displayScoreModal = () => {
     finishQuizBtn.style.visibility = 'hidden'
+    markForReviewBtn.style.visibility = 'hidden'
     scoreDiv.innerHTML = ''
     updateScore()
     sections.forEach(section => {
@@ -298,7 +300,33 @@ const displayScoreModal = () => {
             </div>
         </div>`
     })
+
+
+    const hist = JSON.parse(localStorage.getItem('quiz_hist'))
+    const key = Object.keys(hist).at(-1)
+    let average = Number(hist[key]['average'])
+    average = average.toFixed(2)
+
+    let scoreSpan = ''
+    if (average < 25.0)
+        scoreSpan = `<span class='text-danger'>${average}%</span>`
+    else if (average < 50.0)
+        scoreSpan = `<span class='text-info'>${average}%</span>`
+    else
+        scoreSpan = `<span class='text-success'>${average}%</span>`
+    scoreDiv.innerHTML += `
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <span>Average Score</span>
+            </div>
+            <div class="col-md-6 text-right">
+                ${scoreSpan}
+            </div>
+        </div>`
+
+
     $("#questionsAttemptedModal").modal("hide");
+    changeQuestion()
     $("#scoreModal").modal("show");
 }
 

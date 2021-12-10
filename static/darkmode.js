@@ -42,6 +42,10 @@ function darkMode() {
         snm.classList.add('bg-dark')
     })
 
+    const faMoon = document.querySelector('.fa-moon')
+    faMoon.classList.remove('fa-moon')
+    faMoon.classList.add('fa-sun')
+
     localStorage.setItem('use-dark-mode', 'true')
 }
 
@@ -69,6 +73,10 @@ function lightMode() {
     snmbs.forEach(snm => {
         snm.classList.remove('bg-dark')
     })
+
+    const faSun = document.querySelector('.fa-sun')
+    faSun.classList.remove('fa-sun')
+    faSun.classList.add('fa-moon')
 
     localStorage.setItem('use-dark-mode', 'false')
 }
