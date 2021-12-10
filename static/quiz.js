@@ -96,8 +96,7 @@ const updateSidebar = () => {
                 qnButton.classList.add('btn-success')
             else qnButton.classList.add('btn-danger')
         } else {
-            if (currentQuestionsNumber == i) qnButton.classList.add('btn-primary')
-            else if (markedQuestions.get(currentSection)[i]) {
+            if (markedQuestions.get(currentSection)[i]) {
                 qnButton.classList.add('btn-warning')
             }
             else {
@@ -106,6 +105,7 @@ const updateSidebar = () => {
                 else qnButton.classList.add('btn-outline-primary')
             }
         }
+        if (currentQuestionsNumber == i) qnButton.classList.add('border', 'border-white')
         qnButtonsDiv.append(qnButton)
     })
 }
@@ -114,7 +114,7 @@ const changeQuestion = questionNumber => {
     if (questionNumber == undefined) questionNumber = currentQuestionsNumber
     currentQuestionsNumber = questionNumber
     const question = questions[currentSection][questionNumber]
-    questionPre.textContent = question.question
+    questionPre.textContent = `Q${currentQuestionsNumber+1}. ` + question.question
     optionsDiv.innerHTML = ``
 
     let selectedOption = -1
@@ -309,12 +309,14 @@ const markForReview = () => {
         markForReviewBtn.textContent = 'Remove From Review'
     else
         markForReviewBtn.textContent = 'Mark Fom Review'
+    updateSidebar()
 }
 
 optionsDiv.addEventListener('click', e => {
     if (e.target.nodeName != 'INPUT') return
     const answers = userAnswers.get(currentSection)
     answers[currentQuestionsNumber] = e.target.value[0]
+    updateSidebar()
 })
 
 const updateTimer = timerInterval => {
