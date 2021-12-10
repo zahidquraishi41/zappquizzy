@@ -49,6 +49,10 @@ pre.option {
     color: #adb5bd;
 }
 
+.section-name {
+    cursor: default;
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -60,31 +64,13 @@ pre.option {
     position: absolute;
     top: 0;
     right: 0;
-    overflow: hidden;
 }
 
 #content.active {
     width: 100%;
 }
 
-/* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
-
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -300px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-    #content {
-        width: 100%;
-    }
-    #content.active {
-        width: calc(100% - 300px);
-    }
-    #sidebarCollapse span {
-        display: none;
-    }
+#timer {
+    min-width: 300px;
+    cursor: default;
 }
