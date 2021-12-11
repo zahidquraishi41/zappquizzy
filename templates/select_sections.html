@@ -1,4 +1,4 @@
-<!-- REQURIRES FOLLOWING PARAMETERS -->
+<!-- REQUIRES FOLLOWING PARAMETERS -->
 <!-- sections: list[str] -->
 <!-- title: str -->
 <!-- prev_url: str -->
@@ -9,7 +9,6 @@
 {% include 'includes/darkmode_nav.html' %}
 <h1 class="display-3">{{ title }}</h1>
 <hr class="mb-5">
-
 
 <!-- Score Modal -->
 <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
@@ -29,31 +28,32 @@
     </div>
 </div>
 
-
-<form method="post">
+<form method="post" class="mb-5">
     <div class="row">
         {% for section in sections %}
         <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
             <input type="checkbox" class="btn-check" name="sections" id="{{ section }}" value="{{ section }}"
                 autocomplete="off">
-            <label class="btn btn-outline-primary py-3 selectable-button" for="{{ section }}">{{ section }}</label>
+            <label class="btn btn-outline-primary py-3 btn-item" for="{{ section }}">{{ section }}</label>
         </div>
         {% endfor %}
     </div>
+
     <button class="btn btn-primary px-3 me-2" type="button"
         onclick="window.location.href='{{ prev_url }}'">Prev</button>
     <button class="btn btn-primary px-3" type="submit">Next</button>
 </form>
-<div class="m-5"></div>
 {% endblock content %}
 
 {% block scripts %}
 <!-- jQuery CDN - Slim version (=without AJAX) -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-   integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+    crossorigin="anonymous"></script>
 
 <script>
     document.querySelector('form').addEventListener('submit', event => {
