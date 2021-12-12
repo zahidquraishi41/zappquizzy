@@ -248,7 +248,7 @@ const displayAttempts = () => {
     // end of temp code
 
     let attemptsTable = ''
-    if (localStorage.getItem('use-dark-mode') == 'true')
+    if (isDarkMode())
         attemptsTable = `<table class="table table-dark table-striped"><tbody>`
     else attemptsTable = `<table class="table table-striped"><tbody>`
 
@@ -280,7 +280,7 @@ const displayScoreModal = () => {
     updateScore()
 
     let scoreTable = ''
-    if (localStorage.getItem('use-dark-mode') == 'true')
+    if (isDarkMode())
         scoreTable = `<table class="table table-dark table-striped"><tbody>`
     else scoreTable = `<table class="table table-striped"><tbody>`
 

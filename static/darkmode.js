@@ -3,6 +3,8 @@ add snmt to apply darkmode to text
 add snmb to apply darkmode to background
 add snm to apply darkmode to both
 */
+const DARK_MODE_KEY = 'use-dark-mode'
+const isDarkMode = () => (localStorage.getItem(DARK_MODE_KEY) == 'true')
 
 function toggleDarkMode() {
     const body = document.querySelector('body')
@@ -12,8 +14,7 @@ function toggleDarkMode() {
 }
 
 function reApplyTheme() {
-    if (localStorage.getItem('use-dark-mode') == 'true')
-        darkMode()
+    if (isDarkMode()) darkMode()
     else lightMode()
 }
 
@@ -48,7 +49,7 @@ function darkMode() {
         faMoon.classList.add('fa-sun')
     }
 
-    localStorage.setItem('use-dark-mode', 'true')
+    localStorage.setItem(DARK_MODE_KEY, 'true')
 }
 
 function lightMode() {
@@ -82,8 +83,7 @@ function lightMode() {
         faSun.classList.add('fa-moon')
     }
 
-    localStorage.setItem('use-dark-mode', 'false')
+    localStorage.setItem(DARK_MODE_KEY, 'false')
 }
 
-if (localStorage.getItem('use-dark-mode') == 'true')
-    darkMode()
+if (isDarkMode()) darkMode()

@@ -70,6 +70,12 @@ pre.option {
     width: 100%;
 }
 
+#content:not(.bg-dark), 
+#questionsAttemptedModal .modal-content:not(.bg-dark),
+#scoreModal .modal-content:not(.bg-dark) {
+    background: #f5f5f5 !important;
+}
+
 #timer {
     min-width: 300px;
     cursor: default;
