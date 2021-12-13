@@ -42,7 +42,14 @@
     }
  */
 
+
 const sections = Object.keys(questions)
+
+if (shuffleQuestions()) {
+    sections.forEach(section => {
+        questions[section].sort(() => Math.random() - 0.5)
+    })
+}
 let currentSection = sections[0]
 let currentQuestionsNumber = 0
 let userAnswers = new Map()

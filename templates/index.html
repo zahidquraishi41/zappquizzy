@@ -100,7 +100,7 @@
         timePerQuestion(val)
     })
 
-    if (shuffleQuestions()) enableTimerCB.checked = true
+    if (shuffleQuestions()) shuffleQuestionCB.checked = true
     if (timerEnabled()) enableTimerCB.checked = true
     else timePerQuestionSelect.disabled = true
     timePerQuestionSelect.selectedIndex = (timePerQuestion() - 30)
