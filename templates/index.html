@@ -3,12 +3,34 @@
 
 {% extends "base.html" %}
 
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+{% endblock stylesheet %}
+
 {% block content %}
 {% include 'includes/darkmode_nav.html' %}
-<div class="position-relative" style="height: 100vh;">
-    <div class="position-absolute top-50 start-50 translate-middle text-center">
-        <h1 class="display-5 mb-5">Yo,</h1>
-        <button class="btn-lg btn-primary" onclick="window.location.href='/quiz'">Start Quiz</button>
-    </div>
+<!-- TODO: add modal for settings -->
+
+<div class="position-absolute top-50 start-50 translate-middle">
+    <h1 class="display-3 mb-5">Quizzy</h1>
+
+    <a href="/quiz" class="btn btn-outline-dark text-start snmbtn">
+        <i class="fas fa-play me-3 bg-primary rounded"></i>
+        Start Quiz
+    </a>
+    <a href="#" class="btn btn-outline-dark text-start snmbtn">
+        <i class="fas fa-cogs me-3 bg-success rounded"></i>
+        Settings
+    </a>
+    <a href="/categories" class="btn btn-outline-dark text-start snmbtn">
+        <i class="fas fa-arrow-right me-3 bg-warning rounded"></i>
+        Reselect
+    </a>
+    <a href="/about" class="btn btn-outline-dark text-start snmbtn">
+        <i class="fas fa-info-circle me-3 bg-info rounded"></i>
+        About
+    </a>
+
 </div>
+
 {% endblock content %}

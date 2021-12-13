@@ -19,6 +19,7 @@ function reApplyTheme() {
 }
 
 function darkMode() {
+    console.log('applying dark theme')
     const body = document.querySelector('body')
     const cls = body.classList
     cls.add('text-light', 'bg-dark')
@@ -43,6 +44,13 @@ function darkMode() {
         snm.classList.add('bg-dark')
     })
 
+    const snmbtns = document.querySelectorAll('.snmbtn')
+    snmbtns.forEach(snmbtn => {
+        snmbtn.classList.remove('text-light')
+        snmbtn.classList.remove('btn-outline-dark')
+        snmbtn.classList.add('btn-outline-light')
+    })
+
     const faMoon = document.querySelector('.fa-moon')
     if (faMoon) {
         faMoon.classList.remove('fa-moon')
@@ -53,6 +61,7 @@ function darkMode() {
 }
 
 function lightMode() {
+    console.log('applying light theme')
     const body = document.querySelector('body')
     const cls = body.classList
     cls.remove('text-light', 'bg-dark')
@@ -75,6 +84,12 @@ function lightMode() {
     const snmbs = document.querySelectorAll('.snmb')
     snmbs.forEach(snm => {
         snm.classList.remove('bg-dark')
+    })
+
+    const snmbtns = document.querySelectorAll('.snmbtn')
+    snmbtns.forEach(snmbtn => {
+        snmbtn.classList.remove('btn-outline-light')
+        snmbtn.classList.add('btn-outline-dark')
     })
 
     const faSun = document.querySelector('.fa-sun')
