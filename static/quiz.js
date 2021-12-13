@@ -56,10 +56,10 @@ sections.forEach(section => {
     markedQuestions.set(section, arr)
 })
 
-const USE_TIMER = true
+const USE_TIMER = timerEnabled()
 let questionsCount = 0
 sections.forEach(section => questionsCount += questions[section].length)
-const TIME_PER_QUESTION = 20 // in seconds
+const TIME_PER_QUESTION = timePerQuestion() // in seconds
 const TOTAL_TIME = TIME_PER_QUESTION * questionsCount // in seconds
 let timeLeft = TOTAL_TIME // in seconds
 const PASSING_AVERAGE = 25
