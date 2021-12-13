@@ -19,17 +19,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="settingsBody">
-
                 <div class="form-check form-switch">
                     <input class="form-check-input me-4" type="checkbox" role="switch" id="shuffle-questions">
                     <label class="form-check-label" for="shuffle-questions">Shuffle questions</label>
                 </div>
-
                 <div class="form-check form-switch">
                     <input class="form-check-input me-4" type="checkbox" role="switch" id="enable-timer">
                     <label class="form-check-label" for="enable-timer">Enable timer</label>
                 </div>
-
                 <div>
                     <select class="me-1" id="time-per-question">
                         {% for i in range(271) %}
@@ -38,9 +35,6 @@
                     </select>
                     <span>Seconds per question</span>
                 </div>
-
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

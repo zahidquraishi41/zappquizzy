@@ -205,10 +205,7 @@ const updateScore = () => {
     const ddmmyyyy = `${day}-${month}-${year}`
     const hhmmss = `${hour}:${minutes}:${seconds}`
 
-    let quiz_hist = localStorage.getItem('quiz_hist')
-    if (!quiz_hist) quiz_hist = {}
-    else quiz_hist = JSON.parse(quiz_hist)
-
+    score_json = {}
     let average = 0
     let scores = []
     sections.forEach(section => {
@@ -232,15 +229,14 @@ const updateScore = () => {
     })
     average = (average / (sections.length * 100)) * 100
     average = average.toFixed(2)
-
-    quiz_hist[`${ddmmyyyy} ${hhmmss}`] = {
+    
+    score_json[`${ddmmyyyy} ${hhmmss}`] = {
         'average': average,
         'date': ddmmyyyy,
         'time': hhmmss,
         'scores': scores
     }
-    scores_json = JSON.stringify(quiz_hist)
-    localStorage.setItem(`quiz_hist`, scores_json)
+    userScores(score_json)
 }
 
 const displayAttempts = () => {
@@ -312,7 +308,7 @@ const displayScoreModal = () => {
         </tr>`
     })
 
-    const hist = JSON.parse(localStorage.getItem('quiz_hist'))
+    const hist = userScores()
     const key = Object.keys(hist).at(-1)
     let average = Number(hist[key]['average'])
     average = average.toFixed(2)

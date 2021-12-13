@@ -31,3 +31,16 @@ function timePerQuestion(val) {
         return Number(localStorage.getItem('time-per-question'))
     localStorage.setItem('time-per-question', val)
 }
+
+function userScores(val) {
+    /* if val is passed then appends val on current json; 
+    otherwise returns value stored in localStorage. Default is empty json.*/
+    let scores = JSON.parse(localStorage.getItem('quiz_hist'))
+    if (scores == null) scores = {}
+    if (val == null || val == undefined)
+        return scores
+    const key = Object.keys(val)
+    const elem = val[key]
+    scores[key] = elem
+    localStorage.setItem('quiz_hist', JSON.stringify(scores))
+}
