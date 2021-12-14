@@ -233,7 +233,7 @@ def code_formatter(code: str) -> str:
 
     # indenting code blocks with 3 spaces
     for i, block in enumerate(formatted):
-        if block and block.strip()[-1] == '{':
+        if block and block.strip() and block.strip()[-1] == '{':
             j = i + 1
             while j < len(formatted):
                 if formatted[j] and formatted[j][-1] == '}':
