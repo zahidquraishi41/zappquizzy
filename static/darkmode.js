@@ -19,7 +19,6 @@ function reApplyTheme() {
 }
 
 function darkMode() {
-    console.log('applying dark theme')
     const body = document.querySelector('body')
     const cls = body.classList
     cls.add('text-light', 'bg-dark')
@@ -57,11 +56,16 @@ function darkMode() {
         faMoon.classList.add('fa-sun')
     }
 
+    const snmtables = document.querySelectorAll('.snmtable')
+    console.log(snmtables)
+    snmtables.forEach(snmtable => {
+        snmtable.classList.add('table-dark')
+    })
+
     localStorage.setItem(DARK_MODE_KEY, 'true')
 }
 
 function lightMode() {
-    console.log('applying light theme')
     const body = document.querySelector('body')
     const cls = body.classList
     cls.remove('text-light', 'bg-dark')
@@ -97,6 +101,11 @@ function lightMode() {
         faSun.classList.remove('fa-sun')
         faSun.classList.add('fa-moon')
     }
+
+    const snmtables = document.querySelectorAll('.snmtable')
+    snmtables.forEach(snmtable => {
+        snmtable.classList.remove('table-dark')
+    })
 
     localStorage.setItem(DARK_MODE_KEY, 'false')
 }

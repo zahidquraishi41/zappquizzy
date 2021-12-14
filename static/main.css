@@ -19,3 +19,15 @@ body {
     min-width: 300px;
     max-width: 500px;
 }
+
+.card {
+    padding: 14px 10px;
+    color: white;
+    display: inline-block;
+}
+
+.icon-rtl {
+    padding-right: 25px;
+    background: url("https://static.thenounproject.com/png/101791-200.png") no-repeat right;
+    background-size: 20px;
+}

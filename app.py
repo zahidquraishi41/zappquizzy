@@ -118,6 +118,10 @@ def error():
     return render_template('error.html')
 
 
+@app.route('/about')
+def about():
+    return render_template('quiz_hist.html')
+
 if __name__ == '__main__':
     # port = random.randint(5000, 5999)
     port = 5000
