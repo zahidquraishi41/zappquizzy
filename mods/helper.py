@@ -235,9 +235,14 @@ def code_formatter(code: str) -> str:
     for i, block in enumerate(formatted):
         if block and block.strip() and block.strip()[-1] == '{':
             j = i + 1
+            opened = 0
             while j < len(formatted):
+                if formatted[j] and formatted[j].strip() and formatted[j].strip()[-1] == '{':
+                    opened += 1
                 if formatted[j] and formatted[j][-1] == '}':
-                    break
+                    if opened == 0:
+                        break
+                    opened -= 1
                 formatted[j] = ' ' * 3 + formatted[j]
                 j += 1
 
