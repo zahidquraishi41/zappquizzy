@@ -1,6 +1,12 @@
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
 h1 {
     text-transform: uppercase;
     letter-spacing: 20px;
+    cursor: default;
 }
 
 a.btn {
