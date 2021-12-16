@@ -1,7 +1,5 @@
 <!-- REQUIRES -->
 <!-- sections: list[str] -->
-<!-- TODO: https://getbootstrap.com/docs/5.1/components/dropdowns/
-           redesign Reselect button to dropright button from above link. -->
 {% extends "base.html" %}
 
 {% block stylesheet %}
@@ -59,8 +57,12 @@
         <i class="fas fa-arrow-right me-3 bg-warning rounded"></i>
         Reselect
     </a>
+    <a href="/quiz_hist" class="btn btn-outline-dark text-start snmbtn">
+        <i class="fas fa-history me-3 bg-info rounded"></i>
+        History
+    </a>
     <a href="/about" class="btn btn-outline-dark text-start snmbtn">
-        <i class="fas fa-info-circle me-3 bg-info rounded"></i>
+        <i class="fas fa-info-circle me-3 bg-secondary rounded"></i>
         About
     </a>
 </div>

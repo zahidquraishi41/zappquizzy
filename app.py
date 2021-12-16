@@ -120,7 +120,11 @@ def error():
 
 @app.route('/about')
 def about():
-    return render_template('quiz_hist.html')
+    return render_template('about.html')
+
+@app.route('/quiz_hist')
+def quiz_hist():
+    return render_template('quiz_hist.html', title='History')
 
 if __name__ == '__main__':
     # port = random.randint(5000, 5999)

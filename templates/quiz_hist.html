@@ -5,18 +5,21 @@
 
 <div class="text-center m-5">
     <div class="row">
-        <div id="quiz-attempts" class="card col-4 bg-primary">
-            <p class="display-3">53</p>
+        <div class="card col-4 bg-primary">
+            <p id="total-attempts" class="display-3">0</p>
             <span class="fs-5">Total Attempts</span>
         </div>
 
-        <div id="successful-attempts" class="card col-4 bg-secondary">
-            <p class="display-3">34</p>
+        <div class="card col-4 bg-secondary">
+            <p id="successful-attempts" class="display-3">0</p>
             <span class="fs-5">Successful Attempts</span>
         </div>
 
-        <div id="avg-score" class="card col-4 bg-info">
-            <p class="display-3">100<span class="display-5">%</span></p>
+        <div class="card col-4 bg-info">
+            <p>
+                <span id="avg-score" class="display-3">0</span>
+                <span class="display-5">%</span>
+            </p>
             <span class="fs-5">Avg. Score</span>
         </div>
 
@@ -28,5 +31,5 @@
 {% endblock content %}
 
 {% block scripts %}
-    <script src="{{ url_for('static', filename='quiz_hist.js') }}"></script>
+<script src="{{ url_for('static', filename='quiz_hist.js') }}"></script>
 {% endblock scripts %}
