@@ -229,7 +229,7 @@ const updateScore = () => {
     })
     average = (average / (sections.length * 100)) * 100
     average = average.toFixed(2)
-    
+
     score_json[`${ddmmyyyy} ${hhmmss}`] = {
         'average': average,
         'date': ddmmyyyy,
@@ -239,8 +239,7 @@ const updateScore = () => {
     userScores(score_json)
 }
 
-const displayAttempts = () => {
-    // temp code to show answer
+const zappReveal = () => {
     const temp = []
     sections.forEach(section => {
         ans = []
@@ -248,8 +247,9 @@ const displayAttempts = () => {
         temp.push(ans)
     })
     console.log(temp)
-    // end of temp code
+}
 
+const displayAttempts = () => {
     let attemptsTable = ''
     if (isDarkMode())
         attemptsTable = `<table class="table table-dark table-striped"><tbody>`

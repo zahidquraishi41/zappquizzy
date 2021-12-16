@@ -4,14 +4,10 @@ from mods import helper
 import json
 from mods.database import SessionDB
 import webbrowser
+import threading
 
 app = Flask(__name__)
 session = SessionDB()
-'''TODO
-1. complete index.html
-2. complete error.html
-3. add select all button to select_sections.html
-'''
 
 
 @app.route('/')
@@ -113,22 +109,17 @@ def quiz():
     return render_template('quiz.html', title='Quiz', questions_json=questions_json)
 
 
-@app.route('/error')
-def error():
-    return render_template('error.html')
-
-
 @app.route('/about')
 def about():
     return render_template('about.html', title="About")
+
 
 @app.route('/quiz_hist')
 def quiz_hist():
     return render_template('quiz_hist.html', title='History')
 
+
 if __name__ == '__main__':
-    # port = random.randint(5000, 5999)
-    port = 5000
-    url = f'http://127.0.0.1:{port}/'
-    webbrowser.open(url)
-    app.run(port=port, debug=True)
+    url = f'http://127.0.0.1:5000/'
+    threading.Timer(1, lambda: webbrowser.open_new(url)).start()
+    app.run(debug=False)

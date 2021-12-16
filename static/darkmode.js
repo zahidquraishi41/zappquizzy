@@ -57,7 +57,6 @@ function darkMode() {
     }
 
     const snmtables = document.querySelectorAll('.snmtable')
-    console.log(snmtables)
     snmtables.forEach(snmtable => {
         snmtable.classList.add('table-dark')
     })
