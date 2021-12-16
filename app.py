@@ -120,7 +120,7 @@ def error():
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', title="About")
 
 @app.route('/quiz_hist')
 def quiz_hist():
