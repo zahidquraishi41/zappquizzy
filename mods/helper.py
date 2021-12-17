@@ -1,6 +1,5 @@
 from . import scrapper
 from .database import ScrapperDB
-import time
 '''Kind of a high level module for connecting app.py with (database.py and scrapper.py)'''
 
 
@@ -73,8 +72,10 @@ def code_formatter(code: str) -> str:
     formatted = []
     # removing '{' from new line and putting it to function declaration line
     for block in code.split('\n'):
-        if block == '{' and formatted:
-            formatted.append(formatted.pop() + ' ' + block)
+        if block.strip() == '{' and formatted:
+            formatted.append(formatted.pop() + ' {')
+        elif block.strip() == '':
+            continue
         else:
             formatted.append(block)
 
@@ -86,7 +87,7 @@ def code_formatter(code: str) -> str:
             while j < len(formatted):
                 if formatted[j] and formatted[j].strip() and formatted[j].strip()[-1] == '{':
                     opened += 1
-                if formatted[j] and formatted[j][-1] == '}':
+                if formatted[j].strip() and formatted[j].strip()[-1] == '}':
                     if opened == 0:
                         break
                     opened -= 1
