@@ -131,8 +131,8 @@ const changeQuestion = questionNumber => {
         selectedOption = answers[currentQuestionsNumber]
 
     question.options.forEach((option) => {
-        const addAttribute = (elem, attr) => elem.substring(0, elem.indexOf('>')) + ` ${attr}` + elem.substring(elem.indexOf('>'))
-        input = `<input type="radio" class="btn-check" name="options" id="${option}" value="${option}" autocomplete="off">`
+        const addAttribute = (elem, attr) => elem.substring(0, elem.lastIndexOf('>')) + ` ${attr}` + elem.substring(elem.lastIndexOf('>'))
+        input = `<input type="radio" class="btn-check" name="options" id="${option[0]}" value="${option}" autocomplete="off">`
         if (finishQuizBtn.style.visibility == 'hidden')
             input = addAttribute(input, 'disabled')
         if (option[0] == selectedOption)
@@ -140,7 +140,7 @@ const changeQuestion = questionNumber => {
 
         const label = document.createElement('label')
         label.classList.add('btn', 'py-3', 'text-start', 'option')
-        label.htmlFor = option
+        label.htmlFor = option[0]
         const pre = document.createElement('pre')
         pre.textContent = option
         pre.classList.add('option')
