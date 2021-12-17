@@ -119,7 +119,11 @@ def quiz_hist():
     return render_template('quiz_hist.html', title='History')
 
 
+@app.route('/error')
+def error():
+    return render_template('error.html', title='error.html')
+
 if __name__ == '__main__':
     url = f'http://127.0.0.1:5000/'
     threading.Timer(1, lambda: webbrowser.open_new(url)).start()
-    app.run(debug=False)
+    app.run(debug=True)
