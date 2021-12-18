@@ -26,8 +26,3 @@ body {
     display: inline-block;
 }
 
-.icon-rtl {
-    padding-right: 25px;
-    background: url("https://static.thenounproject.com/png/101791-200.png") no-repeat right;
-    background-size: 20px;
-}
