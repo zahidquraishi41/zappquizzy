@@ -142,8 +142,8 @@ const changeQuestion = questionNumber => {
         label.classList.add('btn', 'py-3', 'text-start', 'option')
         label.htmlFor = option[0]
         const pre = document.createElement('pre')
+        pre.classList.add('option', 'tex2jax_process')
         pre.textContent = option
-        pre.classList.add('option')
         label.append(pre)
 
         // coloring options if quiz is finished
@@ -155,7 +155,7 @@ const changeQuestion = questionNumber => {
             else label.classList.add('btn-outline-primary')
             explanationDiv.innerHTML = ''
             const explanationPre = document.createElement('pre')
-            explanationPre.classList.add('mt-3', 'snmt')
+            explanationPre.classList.add('mt-3', 'snmt', 'tex2jax_process')
             explanationPre.textContent = question.explanation
             explanationDiv.append(explanationPre)
         } else label.classList.add('btn-outline-primary')
@@ -170,6 +170,7 @@ const changeQuestion = questionNumber => {
     else
         markForReviewBtn.textContent = 'Mark From Review'
     reApplyTheme()
+    MathJax.typeset()
 }
 
 const nextQuestion = () => {

@@ -95,8 +95,8 @@
 
 
       <!-- Question And Options -->
-      <div class="content-box">
-         <pre class="question snmt">
+      <div class="content-box ">
+         <pre class="question tex2jax_process snmt">
             <!-- QUESTION WILL BE INJECTED HERE -->
          </pre>
          <div class="options">
@@ -129,6 +129,17 @@
 <!-- jQuery Custom Scroller CDN -->
 <script
    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<!-- MathJax -->
+<script>
+   MathJax = {
+      options: {
+         ignoreHtmlClass: 'tex2jax_ignore',    //  class that marks tags not to search
+         processHtmlClass: 'tex2jax_process'  //  class that marks tags that should be searched
+      }
+   };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <!-- jQuery for sidebarCollapse -->
 <script type="text/javascript">
