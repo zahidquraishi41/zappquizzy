@@ -2,14 +2,6 @@ from bs4 import BeautifulSoup
 import requests
 
 
-def __ascii(s: str) -> str:
-    '''encodes string to ascii, if error occurs then returns orignal string'''
-    try:
-        return s.encode('ascii', 'ignore').decode()
-    except:
-        return s
-
-
 def scrap_categories() -> dict:
     '''Scraps categories and topics within the category from homepage of sanfoundry.
     Returns {$category_name: {$topic_name: $url}, ...}'''
@@ -29,13 +21,13 @@ def scrap_categories() -> dict:
         uls = []
         for elem in col:
             if elem.name == 'h3':
-                cat = __ascii(elem.text).replace(' MCQs', '')
+                cat = elem.text.replace(' MCQs', '')
                 h3s.append(cat)
             if elem.name == 'ul':
                 ul = {}
                 for li in elem.find_all('a'):
                     if 'MCQs' in li.text:
-                        title = __ascii(li.text)\
+                        title = li.text\
                             .replace('1000 ', '')\
                             .replace(' MCQs', '')
                         ul[title] = li['href']
@@ -96,11 +88,11 @@ def scrap_chapters(url: str) -> list[tuple[str, str, list[tuple[str, str]]]]:
                     .replace('Multiple Choice Questions on', '')\
                     .replace('  ', ' ')\
                     .strip()
-                chapter_names.append(__ascii(chapter_name))
-                chapter_desc.append(__ascii(elem.p.text))
+                chapter_names.append(chapter_name)
+                chapter_desc.append(elem.p.text)
                 sections = []
                 for a in elem.find_all('a'):
-                    sections.append((__ascii(a.text.strip()), a['href']))
+                    sections.append((a.text.strip(), a['href']))
                 chapter_sections.append(sections)
             except Exception:
                 pass
@@ -160,6 +152,12 @@ def __is_question(tag) -> bool:
     return False
 
 
+def __math_patch(content: BeautifulSoup):
+    # replacing <sup>something</sup> with <sup>something^</sup>
+    for supTag in content.find_all('sup'):
+        supTag.find(text=supTag.text).replaceWith('^' + supTag.text)
+
+
 def scrap_section(url: str) -> list[tuple[str, str, str, str]]:
     '''Scraps a section of chapter and returns an iterable object. 
     Each elem object is a tuple containing three strings which are (question, options, answer, explanation).
@@ -175,10 +173,12 @@ def scrap_section(url: str) -> list[tuple[str, str, str, str]]:
     if not main_content:
         return None
     __clean_section(main_content)
+    __math_patch(main_content)
 
     mcqs = []
     main_list = list(main_content.find_all(recursive=False))
-    answers_div = main_content.find_all('div', class_='collapseomatic_content', recursive=False)
+    answers_div = main_content.find_all(
+        'div', class_='collapseomatic_content', recursive=False)
     for answer_div in answers_div:
         i = main_list.index(answer_div) - 1
         data = []
@@ -219,7 +219,7 @@ def scrap_section(url: str) -> list[tuple[str, str, str, str]]:
         explanation = explanation.replace(
             '\nadvertisement\n', '').strip('\n').strip()
 
-        mcqs.append((__ascii(question), __ascii(options),
-                    __ascii(answer), __ascii(explanation)))
+        mcqs.append((question, options,
+                    answer, explanation))
 
     return mcqs
