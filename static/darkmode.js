@@ -110,3 +110,7 @@ function lightMode() {
 }
 
 if (isDarkMode()) darkMode()
+document.addEventListener("readystatechange", event => {
+    if (event.target.readyState == 'complete')
+        document.querySelector('body').style.transition = 'all 0.3s'
+});

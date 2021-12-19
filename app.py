@@ -123,6 +123,7 @@ def quiz_hist():
 def error():
     return render_template('error.html', title='error.html')
 
+
 if __name__ == '__main__':
     url = f'http://127.0.0.1:5000/'
     threading.Timer(1, lambda: webbrowser.open_new(url)).start()
