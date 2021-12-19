@@ -16,6 +16,8 @@
 {% endblock stylesheet %}
 
 {% block main %}
+<input type="hidden" id="questions" value='{{ questions_json|tojson|safe }}'>
+<input type="hidden" id="missing-sections" value='{{ missing_sections|tojson|safe }}'>
 <div class="d-flex w-100">
    <!-- Sidebar  -->
    <nav id="sidebar" class="p-3">
@@ -72,6 +74,33 @@
             </div>
          </div>
       </div>
+
+
+      <!-- Missing Sections Modal -->
+      <div class="modal fade" id="missingSectionsModal" tabindex="-1" aria-labelledby="missingSectionsModalLabel"
+         aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content snmb">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="missingSectionsModalLabel">Missing Sections</h5>
+               </div>
+               <div class="modal-body" id="missingSectionsBody">
+                  <p>The following sections are currently work in progress.</p>
+                  <ul>
+                     {% for section in missing_sections %}
+                     <li>{{ section }}</li>
+                     {% endfor %}
+                  </ul>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-primary invisible" data-bs-dismiss="modal"
+                     onclick="loadContent()">Continue</button>
+                  <button type="button" class="btn btn-secondary" onclick="resetAndGoHome()">Back</button>
+               </div>
+            </div>
+         </div>
+      </div>
+
 
       <div class="mb-3 p-1 d-flex">
          <button class="btn btn-success me-2" id="sidebarCollapse">
@@ -155,10 +184,5 @@
    });
 </script>
 
-<script>
-   let questions = '{{ questions_json|tojson }}'
-   questions = questions.substring(1, questions.length - 1)
-   questions = JSON.parse(questions)
-</script>
 <script src="{{ url_for('static', filename='quiz.js') }}"></script>
 {% endblock scripts %}

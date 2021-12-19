@@ -1,10 +1,10 @@
 from flask import Flask, render_template, url_for, redirect
 from flask import request
 from mods import helper
-import json
 from mods.database import SessionDB
 import webbrowser
 import threading
+import json
 
 app = Flask(__name__)
 session = SessionDB()
@@ -94,19 +94,15 @@ def sections():
 @app.route('/quiz')
 def quiz():
     questions_dict = {}
+    missing_sections = []
     for section in session.sections:
         questions = helper.get_questions(
             section, session.chapter, session.topic, session.category)
         if not questions:
-            # TODO display a popup or something when this happens
+            missing_sections.append(section)
             continue
         questions_dict.update(helper.to_dict(section, questions))
-    if not questions_dict:
-        # TODO display a popup or something when this happens
-        return redirect(url_for('home'))
-    questions_json = json.dumps(questions_dict)
-
-    return render_template('quiz.html', title='Quiz', questions_json=questions_json)
+    return render_template('quiz.html', title='Quiz', questions_json=questions_dict, missing_sections=missing_sections)
 
 
 @app.route('/about')

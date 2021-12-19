@@ -42,16 +42,42 @@
     }
  */
 
+// Selectors
+const sectionNameSpan = document.querySelector('.section-name')
+const qnButtonsDiv = document.querySelector('.qn-buttons')
 
+const questionPre = document.querySelector('.question')
+const optionsDiv = document.querySelector('.options')
+const explanationDiv = document.querySelector('.explanation')
+
+const missingSectionsModal = new bootstrap.Modal(document.getElementById('missingSectionsModal'), {
+    keyboard: false,
+    backdrop: 'static'
+})
+const questionsAttemptedDiv = document.querySelector('#questionsAttemptedBody')
+const finishQuizBtn = document.querySelector('#finishQuiz')
+const scoreDiv = document.querySelector('#scoreBody')
+
+const timerDiv = document.querySelector('#timer')
+const tlHours = document.querySelector('#tl-hours')
+const tlMinutes = document.querySelector('#tl-minutes')
+const tlSeconds = document.querySelector('#tl-seconds')
+
+const markForReviewBtn = document.querySelector('#markForReview')
+
+// Config
+let questions = document.querySelector('#questions').value
+questions = JSON.parse(questions)
+let missingSections = document.querySelector('#missing-sections').value
+missingSections = JSON.parse(missingSections)
+
+if (shuffleQuestions())
+    sections.forEach(section => questions[section].sort(() => Math.random() - 0.5))
 const sections = Object.keys(questions)
-
-if (shuffleQuestions()) {
-    sections.forEach(section => {
-        questions[section].sort(() => Math.random() - 0.5)
-    })
-}
-let currentSection = sections[0]
+let currentSection = null
 let currentQuestionsNumber = 0
+let totalQuestions = 0
+sections.forEach(section => totalQuestions += questions[section].length)
 let userAnswers = new Map()
 let markedQuestions = new Map()
 sections.forEach(section => {
@@ -64,30 +90,11 @@ sections.forEach(section => {
 })
 
 const USE_TIMER = timerEnabled()
-let questionsCount = 0
-sections.forEach(section => questionsCount += questions[section].length)
 const TIME_PER_QUESTION = timePerQuestion() // in seconds
-const TOTAL_TIME = TIME_PER_QUESTION * questionsCount // in seconds
-let timeLeft = TOTAL_TIME // in seconds
 const PASSING_AVERAGE = 25
+const TOTAL_TIME = TIME_PER_QUESTION * totalQuestions // in seconds
+let timeLeft = TOTAL_TIME // in seconds
 
-const sectionNameSpan = document.querySelector('.section-name')
-const qnButtonsDiv = document.querySelector('.qn-buttons')
-
-const questionPre = document.querySelector('.question')
-const optionsDiv = document.querySelector('.options')
-const explanationDiv = document.querySelector('.explanation')
-
-const questionsAttemptedDiv = document.querySelector('#questionsAttemptedBody')
-const finishQuizBtn = document.querySelector('#finishQuiz')
-const scoreDiv = document.querySelector('#scoreBody')
-
-const timerDiv = document.querySelector('#timer')
-const tlHours = document.querySelector('#tl-hours')
-const tlMinutes = document.querySelector('#tl-minutes')
-const tlSeconds = document.querySelector('#tl-seconds')
-
-const markForReviewBtn = document.querySelector('#markForReview')
 
 const updateSidebar = () => {
     sectionNameSpan.textContent = currentSection
@@ -170,7 +177,9 @@ const changeQuestion = questionNumber => {
     else
         markForReviewBtn.textContent = 'Mark From Review'
     reApplyTheme()
-    MathJax.typeset()
+    try {
+        MathJax.typeset()
+    } catch (ignore) { }
 }
 
 const nextQuestion = () => {
@@ -274,7 +283,6 @@ const displayAttempts = () => {
 }
 
 const resetAndGoHome = () => {
-    changeQuestion(currentQuestionsNumber)
     location.assign('home')
 }
 
@@ -373,12 +381,27 @@ const updateTimer = timerInterval => {
     timeLeft -= 1
 }
 
-changeQuestion(0)
-if (USE_TIMER) {
-    updateTimer()
-    timerDiv.classList.remove('invisible')
-    timeLeft += 1
-    let timerInterval = setInterval(() => {
-        updateTimer(timerInterval)
-    }, 1000);
+function loadContent() {
+    currentSection = sections[0]
+    changeQuestion(0)
+    if (USE_TIMER) {
+        updateTimer()
+        timerDiv.classList.remove('invisible')
+        timeLeft += 1
+        let timerInterval = setInterval(() => {
+            updateTimer(timerInterval)
+        }, 1000);
+    }
 }
+
+
+if (missingSections.length) {
+    if (sections.length != 0)
+        document.getElementById('missingSectionsModal')
+            .querySelector('.btn-primary')
+            .classList.remove('invisible')
+    missingSectionsModal.show()
+} else 
+    loadContent()
+
+
