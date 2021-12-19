@@ -4,6 +4,8 @@ from mods import helper
 from mods.database import SessionDB
 import webbrowser
 import threading
+import git
+
 app = Flask(__name__)
 session = SessionDB('0')
 
@@ -134,6 +136,17 @@ def postmethod():
     user_id = request.get_json()['user_id']
     session = SessionDB(user_id)
     return {'message': 'success'}
+
+
+@app.route('/git_update', methods=['POST'])
+def git_update():
+    repo = git.Repo('./sf-quiz-web')
+    origin = repo.remotes.origin
+    repo.create_head('main', origin.refs.main).set_tracking_branch(
+        origin.refs.main).checkout()
+    origin.pull()
+    return '', 200
+
 
 if __name__ == '__main__':
     url = f'http://127.0.0.1:5000/'
