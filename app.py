@@ -4,23 +4,13 @@ from mods import helper
 from mods.database import SessionDB
 import webbrowser
 import threading
-import json
-
 app = Flask(__name__)
-session = SessionDB()
+session = SessionDB('0')
 
 
 @app.route('/')
 @app.route('/home')
 def home():
-    if not session.category:
-        return redirect(url_for('categories'))
-    if not session.topic:
-        return redirect(url_for('topics'))
-    if not session.chapter:
-        return redirect(url_for('chapters'))
-    if not session.sections:
-        return redirect(url_for('sections'))
     return render_template('index.html', title='Homepage', sections=session.sections)
 
 
@@ -44,6 +34,8 @@ def topics():
         if topic:
             session.set_topic(topic)
             return redirect(url_for('chapters'))
+    if not session.category:
+        return redirect(url_for('categories'))
     category = session.category
     topics = helper.get_topics(category)
     if not (topics and category):
@@ -58,7 +50,10 @@ def chapters():
         if chapter:
             session.set_chapter(chapter)
             return redirect(url_for('sections'))
-
+    if not session.category:
+        return redirect(url_for('categories'))
+    if not session.topic:
+        return redirect(url_for('topics'))
     category = session.category
     topic = session.topic
     if not (category and topic):
@@ -77,7 +72,12 @@ def sections():
         if sections:
             session.set_sections(sections)
             return redirect(url_for('home'))
-
+    if not session.category:
+        return redirect(url_for('categories'))
+    if not session.topic:
+        return redirect(url_for('topics'))
+    if not session.chapter:
+        return redirect(url_for('chapters'))
     category = session.category
     topic = session.topic
     chapter = session.chapter
@@ -93,6 +93,14 @@ def sections():
 
 @app.route('/quiz')
 def quiz():
+    if not session.category:
+        return redirect(url_for('categories'))
+    if not session.topic:
+        return redirect(url_for('topics'))
+    if not session.chapter:
+        return redirect(url_for('chapters'))
+    if not session.sections:
+        return redirect(url_for('sections'))
     questions_dict = {}
     missing_sections = []
     for section in session.sections:
@@ -120,7 +128,14 @@ def error():
     return render_template('error.html', title='error.html')
 
 
+@app.route('/postmethod', methods=['POST'])
+def postmethod():
+    global session
+    user_id = request.get_json()['user_id']
+    session = SessionDB(user_id)
+    return {'message': 'success'}
+
 if __name__ == '__main__':
     url = f'http://127.0.0.1:5000/'
     threading.Timer(1, lambda: webbrowser.open_new(url)).start()
-    app.run(debug=False)
+    app.run(debug=True)

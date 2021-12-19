@@ -111,7 +111,7 @@ class ScrapperDB:
 
     def __create_tables(self):
         ''' row_id is used only for the purpose of getting data in the order they where added.
-        By default fetchall() returns rows sorted by query key.''' 
+        By default fetchall() returns rows sorted by query key.'''
         statements = (
             '''CREATE TABLE IF NOT EXISTS categories (
         category_name TEXT UNIQUE);''',
@@ -180,25 +180,30 @@ class ScrapperDB:
 
 class SessionDB:
     '''Used for storing user selections/settings. 
-    Data changes are saved automatically.
-    Does not use any database as storing list/datetime in rdbms is BAD IDEA.
-    '''
-    __dbpath = 'session.pickle'
+    Data changes are saved automatically.'''
+    __dbpath = 'session.db'
+    __section_sep = chr(256)
 
-    def __init__(self) -> None:
-        if os.path.exists(SessionDB.__dbpath):
-            with open(SessionDB.__dbpath, 'rb') as f:
-                self.category, self.topic, self.chapter, \
-                    self.sections, self.last_refreshed, \
-                    self.shuffle_questions, self.auto_refresh = pickle.load(f)
+    def __init__(self, user_id: str) -> None:
+        self.__create_table()
+        with sql.Connection(SessionDB.__dbpath) as con:
+            cur = con.cursor()
+            user_data = cur.execute('SELECT * FROM session WHERE user_id = ?',
+                                    (user_id, )).fetchone()
+        if user_data:
+            _, self.category, self.topic, self.chapter, \
+                self.sections = user_data
+            if self.sections:
+                if self.__section_sep in self.sections:
+                    self.sections = self.sections.split(self.__section_sep)
+                else:
+                    self.sections = [self.sections]
         else:
             self.category = None
             self.topic = None
             self.chapter = None
             self.sections = None
-            self.last_refreshed = datetime.utcnow()
-            self.shuffle_questions = 'No'
-            self.auto_refresh = 'Yes'
+        self.user_id = user_id
 
     def set_category(self, val: str):
         self.category = val
@@ -222,25 +227,27 @@ class SessionDB:
         self.sections = vals
         self.__commit()
 
-    def toggle_auto_refresh(self):
-        self.auto_refresh = 'Yes' if self.auto_refresh == 'No' else 'No'
-        self.__commit()
-
-    def toggle_shuffle_questions(self):
-        self.shuffle_questions = 'Yes' if self.shuffle_questions == 'No' else 'No'
-        self.__commit()
-
-    def requires_refresh(self) -> bool:
-        if self.auto_refresh == 'Yes':
-            return (datetime.utcnow() - self.last_refreshed).days >= 7
-        return False
-
-    def refreshed(self):
-        self.last_refreshed = datetime.utcnow()
-        self.__commit()
+    def __create_table(self):
+        statement = '''CREATE TABLE IF NOT EXISTS session (
+            user_id INTEGER PRIMARY KEY,
+            category TEXT,
+            topic TEXT,
+            chapter TEXT,
+            sections TEXT
+        )'''
+        with sql.Connection(self.__dbpath) as con:
+            cur = con.cursor()
+            cur.execute(statement)
+            con.commit()
 
     def __commit(self):
-        with open(SessionDB.__dbpath, 'wb') as f:
-            pickle.dump((self.category, self.topic, self.chapter,
-                        self.sections, self.last_refreshed,
-                        self.shuffle_questions, self.auto_refresh), f)
+        if self.sections:
+            sections_str = self.__section_sep.join(self.sections)
+        else:
+            sections_str = self.sections
+
+        with sql.Connection(SessionDB.__dbpath) as con:
+            cur = con.cursor()
+            cur.execute('INSERT OR REPLACE INTO session VALUES (?, ?, ?, ?, ?)',
+                        (self.user_id, self.category, self.topic, self.chapter,
+                         sections_str))

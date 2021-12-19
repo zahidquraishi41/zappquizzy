@@ -44,3 +44,11 @@ function userScores(val) {
     scores[key] = elem
     localStorage.setItem('quiz_hist', JSON.stringify(scores))
 }
+
+function getUserId() {
+    let userId = localStorage.getItem('user-id')
+    if (userId) return userId
+    userId = Date.now()
+    localStorage.setItem('user-id', userId)
+    return userId
+}

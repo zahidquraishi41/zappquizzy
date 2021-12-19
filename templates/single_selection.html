@@ -32,5 +32,11 @@
 <script>
     // selecting first radio button on page
     document.querySelector("input[name=items]").checked = true
+    var xhr = new XMLHttpRequest()
+    xhr.open("POST", '/postmethod', true)
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify({
+        user_id: getUserId()
+    }))
 </script>
 {% endblock scripts %}

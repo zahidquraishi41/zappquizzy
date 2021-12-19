@@ -403,5 +403,3 @@ if (missingSections.length) {
     missingSectionsModal.show()
 } else 
     loadContent()
-
-
