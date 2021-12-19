@@ -21,12 +21,13 @@
 <div class="d-flex w-100">
    <!-- Sidebar  -->
    <nav id="sidebar" class="p-3">
-      <div class="row align-items-center mb-3">
-         <i class="fas fa-arrow-left col-3 align-middle" onclick="prevSection()"></i>
-         <span class="fs-5 section-name text-center col-6">
+
+      <div class="row align-items-center justify-content-between mb-3">
+         <i class="fas fa-arrow-left col" onclick="prevSection()"></i>
+         <span class="fs-5 section-name text-center col">
             <!-- SECTION NAME WILL BE INJECTED HERE -->
          </span>
-         <i class="fas fa-arrow-right col-3 align-middle" onclick="nextSection()"></i>
+         <i class="fas fa-arrow-right col" onclick="nextSection()"></i>
       </div>
 
       <div class="qn-buttons">
@@ -75,7 +76,6 @@
          </div>
       </div>
 
-
       <!-- Missing Sections Modal -->
       <div class="modal fade" id="missingSectionsModal" tabindex="-1" aria-labelledby="missingSectionsModalLabel"
          aria-hidden="true">
@@ -101,7 +101,6 @@
          </div>
       </div>
 
-
       <div class="mb-3 p-1 d-flex">
          <button class="btn btn-success me-2" id="sidebarCollapse">
             <i class="fas fa-align-left"></i>
@@ -121,7 +120,6 @@
             </p>
          </div>
       </div>
-
 
       <!-- Question And Options -->
       <div class="content-box ">
