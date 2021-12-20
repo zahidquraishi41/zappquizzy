@@ -7,18 +7,8 @@
     max-width: 230px;
 }
 
-.qn-button {
-	min-width: 44px;
-}
-
-.option {
-    min-width: 300px;
-    max-width: 500px;
-}
-
 .card {
     padding: 14px 10px;
     color: white;
     display: inline-block;
 }
-
