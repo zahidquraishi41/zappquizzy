@@ -27,10 +27,3 @@ a i {
     width: 100%;
     max-width: 50px;
 }
-
-.bottom-right {
-    position: absolute;
-    bottom: 5%;
-    right: 5%;
-    transform: translate(-50%, -50%);
-}

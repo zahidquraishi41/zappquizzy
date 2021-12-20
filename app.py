@@ -135,7 +135,7 @@ def postmethod():
     global session
     user_id = request.get_json()['user_id']
     session = SessionDB(user_id)
-    return {'message': 'success'}
+    return '', 200
 
 
 @app.route('/git_update', methods=['POST'])
