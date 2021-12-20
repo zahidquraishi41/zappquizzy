@@ -20,7 +20,7 @@
 <input type="hidden" id="missing-sections" value='{{ missing_sections|tojson|safe }}'>
 <div class="d-flex w-100">
    <!-- Sidebar  -->
-   <nav id="sidebar" class="p-3">
+   <nav id="sidebar" class="p-3 active">
       <div class="row align-items-center justify-content-between mb-3">
          <i class="fas fa-arrow-left col" onclick="prevSection()"></i>
          <span class="fs-5 section-name text-center col">
@@ -35,7 +35,7 @@
    </nav>
 
    <!-- Page Content  -->
-   <div id="content" class="snmb p-4">
+   <div id="content" class="snmb p-4 active">
       <!-- Questions Attempted Modal -->
       <div class="modal fade" id="questionsAttemptedModal" tabindex="-1" aria-labelledby="questionsAttemptedModalLabel"
          aria-hidden="true">
@@ -100,7 +100,7 @@
          </div>
       </div>
 
-      <div class="mb-3 p-1 d-flex">
+      <div class="mb-3 p-1 d-flex align-items-center">
          <button class="btn btn-success me-2" id="sidebarCollapse">
             <i class="fas fa-align-left"></i>
          </button>
@@ -108,18 +108,18 @@
             <i class="fas fa-moon toggle-dark"></i>
          </button>
 
-         <div id="timer" class="invisible ml-auto">
-            <p class="time-left bg-secondary p-2 border border-info rounded d-inline">
+         <div id="timer" class="invisible ms-auto">
+            <p class="time-left bg-secondary border border-info rounded d-inline p-2">
                <span class="me-2 text-white">Time Left</span>
-               <span class="p-1 border border-danger rounded bg-light text-dark" >
-                  <span id="tl-text"></span>
+               <span class="border border-danger rounded bg-light text-dark" >
+                  <span id="tl-text" class="px-1"></span>
                </span>
             </p>
          </div>
       </div>
 
       <!-- Question And Options -->
-      <div class="content-box ">
+      <div class="content-box">
          <pre class="question tex2jax_process snmt">
             <!-- QUESTION WILL BE INJECTED HERE -->
          </pre>
@@ -133,11 +133,11 @@
 
       <!-- Prev, Next, Mark For Review, Finish Buttons -->
       <div class="d-flex my-3">
-         <button class="btn btn-primary px-3 me-2" type="button" onclick="prevQuestion()">Prev</button>
-         <button class="btn btn-primary px-3 me-2" type="button" onclick="nextQuestion()">Next</button>
-         <button id="markForReview" class="btn btn-warning px-3 text-dark" type="button" onclick="markForReview()">Mark
+         <button class="btn btn-primary me-2" type="button" onclick="prevQuestion()">Prev</button>
+         <button class="btn btn-primary me-2" type="button" onclick="nextQuestion()">Next</button>
+         <button id="markForReview" class="btn btn-warning me-2" type="button" onclick="markForReview()">Mark
             For Review</button>
-         <button class="btn btn-danger px-3 ml-auto" type="button" id="finishQuiz"
+         <button class="btn btn-danger ml-auto" type="button" id="finishQuiz"
             onclick="displayAttempts()">Finish</button>
       </div>
    </div>
@@ -167,14 +167,13 @@
 
 <!-- jQuery for sidebarCollapse -->
 <script type="text/javascript">
+   $('html').toggleClass('')
    $(document).ready(function () {
       $("#sidebar").mCustomScrollbar({
          theme: "minimal"
       });
       $('#sidebarCollapse').on('click', function () {
          $('#sidebar, #content').toggleClass('active');
-         $('.collapse.in').toggleClass('in');
-         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
       });
    });
 </script>

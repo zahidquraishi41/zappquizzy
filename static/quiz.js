@@ -173,7 +173,7 @@ const changeQuestion = questionNumber => {
     if (markedQuestions.get(currentSection)[currentQuestionsNumber])
         markForReviewBtn.textContent = 'Remove From Review'
     else
-        markForReviewBtn.textContent = 'Mark From Review'
+        markForReviewBtn.textContent = 'Mark For Review'
     reApplyTheme()
     try {
         MathJax.typeset()
@@ -373,10 +373,10 @@ const updateTimer = timerInterval => {
 
     let seconds = temp
 
-    let hoursText = (hours ? hours + 'H' : '')
-    let minutesText = (hours ? minutes + 'M' : (minutes ? minutes + 'M' : ''))
+    let hoursText = (hours ? hours + 'H ' : '')
+    let minutesText = (hours ? minutes + 'M ' : (minutes ? minutes + 'M ' : ''))
     let secondsText = seconds + 'S'
-    tlTextSpan.textContent = hoursText + ' ' + minutesText + ' ' + secondsText
+    tlTextSpan.textContent = hoursText + minutesText + secondsText
     timeLeft -= 1
 }
 
@@ -400,5 +400,4 @@ if (missingSections.length) {
             .querySelector('.btn-primary')
             .classList.remove('invisible')
     missingSectionsModal.show()
-} else
-    loadContent()
+} else loadContent()
