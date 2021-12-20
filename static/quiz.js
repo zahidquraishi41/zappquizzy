@@ -59,9 +59,7 @@ const finishQuizBtn = document.querySelector('#finishQuiz')
 const scoreDiv = document.querySelector('#scoreBody')
 
 const timerDiv = document.querySelector('#timer')
-const tlHours = document.querySelector('#tl-hours')
-const tlMinutes = document.querySelector('#tl-minutes')
-const tlSeconds = document.querySelector('#tl-seconds')
+const tlTextSpan = document.querySelector('#tl-text')
 
 const markForReviewBtn = document.querySelector('#markForReview')
 
@@ -375,9 +373,10 @@ const updateTimer = timerInterval => {
 
     let seconds = temp
 
-    tlHours.textContent = hours
-    tlMinutes.textContent = minutes
-    tlSeconds.textContent = seconds
+    let hoursText = (hours ? hours + 'H' : '')
+    let minutesText = (hours ? minutes + 'M' : (minutes ? minutes + 'M' : ''))
+    let secondsText = seconds + 'S'
+    tlTextSpan.textContent = hoursText + ' ' + minutesText + ' ' + secondsText
     timeLeft -= 1
 }
 
@@ -401,5 +400,5 @@ if (missingSections.length) {
             .querySelector('.btn-primary')
             .classList.remove('invisible')
     missingSectionsModal.show()
-} else 
+} else
     loadContent()
