@@ -27,7 +27,7 @@ pre.option {
 
 pre.question {
     white-space: pre;
-    text-overflow: clip;
+    overflow: visible;
 }
 
 /* ---------------------------------------------------
@@ -64,7 +64,8 @@ pre.question {
 
 #content {
     width: calc(100% - 300px);
-    min-height: 100vh;
+    height: 100vh;
+    overflow-y: scroll;
     transition: all 0.3s;
     position: absolute;
     top: 0;
@@ -77,4 +78,6 @@ pre.question {
 
 #timer {
     cursor: default;
+    white-space: nowrap;
+    
 }
