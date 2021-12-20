@@ -94,8 +94,8 @@ quizKeys.forEach(quizId => {
 
 // changing caret direction on click
 document.querySelectorAll('.collapsible').forEach(elem => {
-    elem.addEventListener('click', e => {
-        iTag = e.target.querySelector('i')
+    elem.addEventListener('click', () => {
+        iTag = elem.querySelector('i')
         iTag.classList.toggle('fa-caret-down')
         iTag.classList.toggle('fa-caret-up')
     })
