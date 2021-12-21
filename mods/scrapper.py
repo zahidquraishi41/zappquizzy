@@ -213,8 +213,8 @@ def scrap_section(url: str) -> list[tuple[str, str, str, str]]:
         question = filtered_data[0].strip('\n')
         options = filtered_data[1:]
         options = '\n'.join(options)
-        answer = answer_div.text.split(
-            '\n', 1)[0].replace('Answer:', '').strip()
+        answer = answer_div.text.split('\n', 1)[0].strip()
+        answer = answer[-1] if answer else 'a'
         explanation = answer_div.text.split('\n', 1)[1]
         explanation = explanation.replace(
             '\nadvertisement\n', '').strip('\n').strip()
