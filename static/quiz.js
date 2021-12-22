@@ -101,7 +101,7 @@ const updateSidebar = () => {
         const qnButton = document.createElement('a')
         qnButton.classList.add('btn', 'm-1', 'qn-button')
         qnButton.textContent = i + 1
-        qnButton.onclick = () => changeQuestion(i)
+        qnButton.onclick = () => changeQuestion(i, true)
 
         // coloring options if quiz is finished
         if (finishQuizBtn.style.visibility == 'hidden') {
@@ -123,7 +123,7 @@ const updateSidebar = () => {
     })
 }
 
-const changeQuestion = questionNumber => {
+const changeQuestion = (questionNumber, closeSidebar) => {
     if (questionNumber == undefined) questionNumber = currentQuestionsNumber
     currentQuestionsNumber = questionNumber
     const question = questions[currentSection][questionNumber]
@@ -178,6 +178,9 @@ const changeQuestion = questionNumber => {
     try {
         MathJax.typeset()
     } catch (ignore) { }
+
+    if (closeSidebar && window.innerWidth <= 858) $('#sidebar, #content').addClass('active');
+
 }
 
 const nextQuestion = () => {
@@ -401,3 +404,10 @@ if (missingSections.length) {
             .classList.remove('invisible')
     missingSectionsModal.show()
 } else loadContent()
+
+window.addEventListener("beforeunload", function (e) {
+    if (finishQuizBtn.style.visibility == 'hidden') return
+    var confirmationMessage = 'Changes you made may not be saved.';
+    (e || window.event).returnValue = confirmationMessage;
+    return confirmationMessage;
+});

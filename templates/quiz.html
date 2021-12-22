@@ -21,6 +21,9 @@
 <div class="d-flex w-100">
    <!-- Sidebar  -->
    <nav id="sidebar" class="p-3 active">
+      <div class="d-flex my-2">
+         <i class="fas fa-times ml-auto sidebarCollapse"></i>
+      </div>
       <div class="row align-items-center justify-content-between mb-3">
          <i class="fas fa-arrow-left col" onclick="prevSection()"></i>
          <span class="fs-5 section-name text-center col">
@@ -101,7 +104,7 @@
       </div>
 
       <div class="mb-3 p-1 d-flex align-items-center">
-         <button class="btn btn-success me-2" id="sidebarCollapse">
+         <button class="btn btn-success me-2 sidebarCollapse">
             <i class="fas fa-align-left"></i>
          </button>
          <button class="btn btn-primary me-2" onclick="toggleDarkMode()">
@@ -111,7 +114,7 @@
          <div id="timer" class="invisible ms-auto">
             <p class="time-left bg-secondary border border-info rounded d-inline p-2">
                <span class="me-2 text-white">Time Left</span>
-               <span class="border border-danger rounded bg-light text-dark" >
+               <span class="border border-danger rounded bg-light text-dark">
                   <span id="tl-text" class="px-1"></span>
                </span>
             </p>
@@ -172,11 +175,8 @@
       $("#sidebar").mCustomScrollbar({
          theme: "minimal"
       });
-      $('#sidebarCollapse').on('click', function () {
+      $('.sidebarCollapse').on('click', function () {
          $('#sidebar, #content').toggleClass('active');
-         if ($('#sidebar').hasClass('active'))
-            $('pre.question').css({'white-space': 'pre', 'overflow': 'auto'})
-         else $('pre.question').css({'white-space': 'pre', 'overflow': 'hidden'})
       });
    });
 </script>

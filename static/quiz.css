@@ -45,7 +45,7 @@ pre.option {
     margin-left: -300px;
 }
 
-.fa-arrow-left:hover, .fa-arrow-right:hover {
+#sidebar i:hover {
     color: var(--bs-primary);
 }
 
@@ -55,6 +55,13 @@ pre.option {
 
 .qn-button {
 	min-width: 44px;
+}
+
+#sidebar i {
+    font-size: 18px;
+}
+i.sidebarCollapse {
+    display: none;
 }
 
 /* ---------------------------------------------------
@@ -74,10 +81,6 @@ pre.option {
     width: 100%;
 }
 
-#content:not(.active) {
-    overflow-x: hidden;
-}
-
 #timer {
     cursor: default;
     white-space: nowrap;
@@ -86,4 +89,37 @@ pre.option {
 .option {
     min-width: 300px;
     max-width: 500px;
+}
+
+/* ---------------------------------------------------
+    MEDIA QUERIES
+----------------------------------------------------- */
+
+@media (max-width: 858px) {
+    #content {
+        width: 100%;
+    }
+
+    #sidebar {
+        transition: all 0.5s;
+    }
+
+    #sidebar.active {
+        width: 0px;
+    }
+
+    i.sidebarCollapse {
+        display: inline-block;
+    }
+
+    #sidebar {
+        position: fixed;
+        width: 100%;
+    }
+
+    .qn-buttons {
+        text-align: center;
+        margin: 20px;
+    }
+
 }
