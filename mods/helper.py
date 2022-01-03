@@ -1,9 +1,10 @@
 from . import scrapper
 from .database import ScrapperDB
+from helper import List, Tuple, Dict
 '''Kind of a high level module for connecting app.py with (database.py and scrapper.py)'''
 
 
-def get_categories() -> list[str]:
+def get_categories() -> List[str]:
     '''Returns categories from database if exists otherwise scraps it, save it to database and returns it.'''
     with ScrapperDB() as db:
         cats = db.get_categories()
@@ -15,13 +16,13 @@ def get_categories() -> list[str]:
     return cats
 
 
-def get_topics(category: str) -> list[str]:
+def get_topics(category: str) -> List[str]:
     '''Returns topics from database.'''
     with ScrapperDB() as db:
         return db.get_topics(category)
 
 
-def get_chapters(topic: str, category: str) -> list[str]:
+def get_chapters(topic: str, category: str) -> List[str]:
     '''Returns chapters from database if exists otherwise scraps it, save it to database and returns it.'''
     with ScrapperDB() as db:
         chaps = db.get_chapters(topic, category)
@@ -34,13 +35,13 @@ def get_chapters(topic: str, category: str) -> list[str]:
         return db.get_chapters(topic, category)
 
 
-def get_sections(chapter: str, topic: str, category: str) -> list[str]:
+def get_sections(chapter: str, topic: str, category: str) -> List[str]:
     '''Returns sections from database.'''
     with ScrapperDB() as db:
         return db.get_sections(chapter, topic, category)
 
 
-def get_questions(section, chapter, topic, category) -> list[tuple[str, str, str, str]]:
+def get_questions(section, chapter, topic, category) -> List[Tuple[str, str, str, str]]:
     '''Returns chapters from database if exists otherwise scraps it, save it to database and returns it.'''
     with ScrapperDB() as db:
         questions = db.get_questions(section, chapter, topic, category)
@@ -53,7 +54,7 @@ def get_questions(section, chapter, topic, category) -> list[tuple[str, str, str
         return db.get_questions(section, chapter, topic, category)
 
 
-def split_options(options: str) -> list[str]:
+def split_options(options: str) -> List[str]:
     choices = []
     try:
         for option in options.split('\n'):
@@ -97,7 +98,7 @@ def code_formatter(code: str) -> str:
     return '\n'.join(formatted)
 
 
-def to_dict(section_name, questions: list[tuple[str, str, str, str]]) -> dict:
+def to_dict(section_name: str, questions: List[Tuple[str, str, str, str]]) -> Dict:
     '''takes output of helper.get_questions(...) and converts to dict'''
     d = {}
     d[section_name] = []

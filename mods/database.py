@@ -1,4 +1,5 @@
 import sqlite3 as sql
+from typing import List, Tuple, Dict
 
 
 class ScrapperDB:
@@ -17,7 +18,7 @@ class ScrapperDB:
     def __exit__(self, exc_type, exc_val, traceback):
         self.__con.close()
 
-    def add_categories(self, out: dict):
+    def add_categories(self, out: Dict):
         '''Takes output from scrapper.scrap_categories() and stores into database.'''
         if not out:
             return
@@ -34,7 +35,7 @@ class ScrapperDB:
                                    (topic_name, topic_url, category))
         self.__con.commit()
 
-    def add_chapters(self, topic_url: str, out: list[tuple[str, str, dict]]):
+    def add_chapters(self, topic_url: str, out: List[Tuple[str, str, dict]]):
         '''This function is designed to add data scrapped using scrapper.scrap_chapters()
         NOTE an extra parameter topic_url is required'''
         if not (topic_url and out):
@@ -51,7 +52,7 @@ class ScrapperDB:
                                    (section_name, section_url, chapter_id))
         self.__con.commit()
 
-    def add_section(self, section_url: str, out: list[tuple[str, str, str, str]]):
+    def add_section(self, section_url: str, out: List[Tuple[str, str, str, str]]):
         '''This function takes output of scrapper.scrap_section() with extra parameter section_url'''
         if not (section_url and out):
             return
@@ -60,7 +61,7 @@ class ScrapperDB:
                                (question, options, answer, explanation, section_url))
         self.__con.commit()
 
-    def get_categories(self) -> list[str]:
+    def get_categories(self) -> List[str]:
         result = self.__cur.execute('''SELECT category_name from categories''')\
             .fetchall()
         categories = []
@@ -68,7 +69,7 @@ class ScrapperDB:
             categories.append(elem[0])
         return categories
 
-    def get_topics(self, category: str) -> list[str]:
+    def get_topics(self, category: str) -> List[str]:
         result = self.__cur.execute('''SELECT topic_name from topics WHERE category_name=?''',
                                     (category, )).fetchall()
         topics = []
@@ -76,7 +77,7 @@ class ScrapperDB:
             topics.append(elem[0])
         return topics
 
-    def get_chapters(self, topic: str, category: str) -> list[str]:
+    def get_chapters(self, topic: str, category: str) -> List[str]:
         chapters = []
         topic_url = self._get_topic_url(topic, category)
         if not topic_url:
@@ -87,7 +88,7 @@ class ScrapperDB:
             chapters.append(elem[0])
         return chapters
 
-    def get_sections(self, chapter: str, topic: str, category: str) -> list[str]:
+    def get_sections(self, chapter: str, topic: str, category: str) -> List[str]:
         sections = []
         chapter_id = self._get_chapter_id1(chapter, topic, category)
         if not chapter_id:
@@ -98,7 +99,7 @@ class ScrapperDB:
             sections.append(elem[0])
         return sections
 
-    def get_questions(self, section: str, chapter: str, topic: str, category: str) -> list[tuple[str, str, str, str]]:
+    def get_questions(self, section: str, chapter: str, topic: str, category: str) -> List[Tuple[str, str, str, str]]:
         section_url = self._get_section_url(section, chapter, topic, category)
         if not section_url:
             return []
@@ -220,7 +221,7 @@ class SessionDB:
         self.sections = None
         self.__commit()
 
-    def set_sections(self, vals: list[str]):
+    def set_sections(self, vals: List[str]):
         self.sections = vals
         self.__commit()
 
