@@ -98,13 +98,10 @@
     timePerQuestionSelect.selectedIndex = (timePerQuestion() - 30)
 
     let data = { user_id: getUserId() };
-
     fetch("/postmethod", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
-    }).then(res => {
-        console.log("Request complete! response:", res);
-    });
+    })
 </script>
 {% endblock scripts %}
