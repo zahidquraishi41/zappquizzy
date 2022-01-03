@@ -1,6 +1,6 @@
 from . import scrapper
 from .database import ScrapperDB
-from helper import List, Tuple, Dict
+from typing import List, Tuple, Dict
 '''Kind of a high level module for connecting app.py with (database.py and scrapper.py)'''
 
 
