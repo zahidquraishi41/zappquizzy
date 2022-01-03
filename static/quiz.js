@@ -260,6 +260,15 @@ const zappReveal = () => {
     console.log(temp)
 }
 
+const zapp100 = () => {
+    sections.forEach(section => {
+        const answers = userAnswers.get(section)
+        questions[section].forEach((e, i) => answers[i] = e.answer)
+    })
+    answer = questions[currentSection][currentQuestionsNumber].answer
+    optionsDiv.querySelector(`[for="${answer}"]`).click()
+}
+
 const displayAttempts = () => {
     let attemptsTable = ''
     if (isDarkMode())
