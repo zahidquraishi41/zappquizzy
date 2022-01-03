@@ -1,4 +1,3 @@
-from . import scrapper
 from .database import ScrapperDB
 from typing import List, Tuple, Dict
 '''Kind of a high level module for connecting app.py with (database.py and scrapper.py)'''
@@ -7,13 +6,7 @@ from typing import List, Tuple, Dict
 def get_categories() -> List[str]:
     '''Returns categories from database if exists otherwise scraps it, save it to database and returns it.'''
     with ScrapperDB() as db:
-        cats = db.get_categories()
-    if not cats:
-        out = scrapper.scrap_categories()
-        with ScrapperDB() as db:
-            db.add_categories(out)
-            cats = db.get_categories()
-    return cats
+        return db.get_categories()
 
 
 def get_topics(category: str) -> List[str]:
@@ -25,13 +18,6 @@ def get_topics(category: str) -> List[str]:
 def get_chapters(topic: str, category: str) -> List[str]:
     '''Returns chapters from database if exists otherwise scraps it, save it to database and returns it.'''
     with ScrapperDB() as db:
-        chaps = db.get_chapters(topic, category)
-        if chaps:
-            return chaps
-        topic_url = db._get_topic_url(topic, category)
-    out = scrapper.scrap_chapters(topic_url)
-    with ScrapperDB() as db:
-        db.add_chapters(topic_url, out)
         return db.get_chapters(topic, category)
 
 
@@ -44,13 +30,6 @@ def get_sections(chapter: str, topic: str, category: str) -> List[str]:
 def get_questions(section, chapter, topic, category) -> List[Tuple[str, str, str, str]]:
     '''Returns chapters from database if exists otherwise scraps it, save it to database and returns it.'''
     with ScrapperDB() as db:
-        questions = db.get_questions(section, chapter, topic, category)
-        if questions:
-            return questions
-        section_url = db._get_section_url(section, chapter, topic, category)
-    out = scrapper.scrap_section(section_url)
-    with ScrapperDB() as db:
-        db.add_section(section_url, out)
         return db.get_questions(section, chapter, topic, category)
 
 
