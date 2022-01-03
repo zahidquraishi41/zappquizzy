@@ -1,8 +1,18 @@
 from bs4 import BeautifulSoup
 import requests
+from typing import List, Tuple, Dict
+import logging
 
 
-def scrap_categories() -> dict:
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+file_handler = logging.FileHandler('scrapper.log')
+formatter = logging.Formatter('%(levelname)s:%(message)s')
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+
+
+def scrap_categories() -> Dict:
     '''Scraps categories and topics within the category from homepage of sanfoundry.
     Returns {$category_name: {$topic_name: $url}, ...}'''
     url = 'https://www.sanfoundry.com/'
@@ -14,15 +24,23 @@ def scrap_categories() -> dict:
     except:
         return None
 
-    def extract_col(col) -> dict:
+    def extract_col(col) -> Dict:
         '''Retuns a dict object where each value is also a dict object.
         {$category_name: {$topic_name: $url}, ...}'''
         h3s = []
         uls = []
+        blocked = False
         for elem in col:
             if elem.name == 'h3':
+                # patch: this category does have topic, chapter& sections but no questions.
+                if elem.text == 'Engineering Branch Wise MCQs':
+                    blocked = True
+                    continue
+                blocked = False
                 cat = elem.text.replace(' MCQs', '')
                 h3s.append(cat)
+            if blocked:
+                continue
             if elem.name == 'ul':
                 ul = {}
                 for li in elem.find_all('a'):
@@ -64,7 +82,7 @@ def scrap_categories() -> dict:
     return all_data
 
 
-def scrap_chapters(url: str) -> list[tuple[str, str, list[tuple[str, str]]]]:
+def scrap_chapters(url: str) -> List[Tuple[str, str, List[Tuple[str, str]]]]:
     '''Scraps the info about a chapter like different section names, descriptions and link for each section.
     Returns a list, each iterable object is a tuple containing 2 string and a list of tuple which are (chapter_name, chapter_description, [(section_name, section_url), ...]).
     eg, https://www.sanfoundry.com/operating-system-questions-answers/'''
@@ -158,27 +176,31 @@ def __math_patch(content: BeautifulSoup):
         supTag.find(text=supTag.text).replaceWith('^' + supTag.text)
 
 
-def scrap_section(url: str) -> list[tuple[str, str, str, str]]:
+def scrap_section(url: str, enable_logging: bool = False) -> List[Tuple[str, str, str, str]]:
     '''Scraps a section of chapter and returns an iterable object. 
     Each elem object is a tuple containing three strings which are (question, options, answer, explanation).
     eg, https://www.sanfoundry.com/operating-system-questions-answers-basics/'''
+    logger.disabled = not enable_logging
+    logger.info(f'Processing: {url}')
     try:
         request = requests.get(url)
         if not request.ok:
             raise Exception()
         bs = BeautifulSoup(request.text, 'lxml')
+        main_content = bs.find('div', class_='entry-content')
+        __clean_section(main_content)
+        __math_patch(main_content)
+        if not main_content:
+            raise Exception('No content left after cleaning.')
     except:
-        return None
-    main_content = bs.find('div', class_='entry-content')
-    if not main_content:
-        return None
-    __clean_section(main_content)
-    __math_patch(main_content)
+        logger.exception('While processing html content.')
+        return
 
-    mcqs = []
     main_list = list(main_content.find_all(recursive=False))
     answers_div = main_content.find_all(
         'div', class_='collapseomatic_content', recursive=False)
+
+    mcqs = []
     for answer_div in answers_div:
         i = main_list.index(answer_div) - 1
         data = []
@@ -187,39 +209,43 @@ def scrap_section(url: str) -> list[tuple[str, str, str, str]]:
             if elem.name == 'div' and elem.has_attr('class') and 'hk1_style-wrap5' in elem['class']:
                 code = []
                 for pre in elem.find_all('pre'):
-                    code.append(pre.text.strip())
-                data.insert(0, '\n'.join(code))
+                    code.insert(0, pre.text)
+                data.extend(code)
             else:
-                if elem.text.strip():
-                    data.insert(0, elem.text.strip())
+                data.extend(elem.text.split('\n'))
             if __is_question(elem):
-                data[0] = (data[0].split('.', 1)[1]).strip()
                 break
             i -= 1
+        data = [elem.strip() for elem in data]
 
-        filtered_data = ['']
-        for e1 in data:
-            if '\n' in e1:
-                for e2 in e1.split('\n'):
-                    if e2.startswith(('a)', 'b)', 'c)', 'd)')):
-                        filtered_data.append(e2)
-                    else:
-                        filtered_data.append(filtered_data.pop() + '\n' + e2)
+        questions = []
+        options = []
+        for elem in data:
+            if elem.startswith(('a)', 'b)', 'c)', 'd)')):
+                options.append(elem)
             else:
-                if e1.startswith(('a)', 'b)', 'c)', 'd)')):
-                    filtered_data.append(e1)
-                else:
-                    filtered_data.append(filtered_data.pop() + '\n' + e1)
-        question = filtered_data[0].strip('\n')
-        options = filtered_data[1:]
-        options = '\n'.join(options)
-        answer = answer_div.text.split('\n', 1)[0].strip()
-        answer = answer[-1] if answer else 'a'
-        explanation = answer_div.text.split('\n', 1)[1]
-        explanation = explanation.replace(
-            '\nadvertisement\n', '').strip('\n').strip()
+                questions.insert(0, elem)
 
-        mcqs.append((question, options,
+        try:
+            answer = answer_div.text.split('\n', 1)[0].strip()
+            if answer and ':' in answer:
+                answer = answer.split(':', 1)[1].strip()
+            explanation = answer_div.text.split('\n', 1)[1]
+            explanation = explanation.strip('\n').strip()
+        except:
+            logger.exception('Failed processing answer or explanation.')
+            continue
+
+        if not questions:
+            logger.debug(f'Failed scrapping question from {answer_div}.')
+            continue
+        if len(options) <= 1:
+            logger.debug(f'Failed scrapping options from {answer_div}.')
+            continue
+        if len(answer) != 1:
+            logger.debug(f'Failed scrapping answer from {answer_div}.')
+            continue
+        mcqs.append(('\n'.join(questions), '\n'.join(options),
                     answer, explanation))
-
+    logger.info(f'Successfully scrapped {len(mcqs)}/{len(answers_div)}')
     return mcqs
