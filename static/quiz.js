@@ -69,9 +69,9 @@ questions = JSON.parse(questions)
 let missingSections = document.querySelector('#missing-sections').value
 missingSections = JSON.parse(missingSections)
 
+const sections = Object.keys(questions)
 if (shuffleQuestions())
     sections.forEach(section => questions[section].sort(() => Math.random() - 0.5))
-const sections = Object.keys(questions)
 let currentSection = null
 let currentQuestionsNumber = 0
 let totalQuestions = 0
