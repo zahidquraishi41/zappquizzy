@@ -211,10 +211,8 @@ const prevSection = () => {
 
 const updateScore = () => {
     const date = new Date()
-    const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()]
-    const [hour, minutes, seconds] = [date.getHours(), date.getMinutes(), date.getSeconds()]
-    const ddmmyyyy = `${day}-${month}-${year}`
-    const hhmmss = `${hour}:${minutes}:${seconds}`
+    const ddmmyyyy = date.toDateString()
+    const hhmmss = date.toLocaleTimeString()
 
     score_json = {}
     let average = 0
