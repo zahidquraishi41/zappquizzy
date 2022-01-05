@@ -1,6 +1,9 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 body {
     font-family: 'Poppins', sans-serif;
+    position: relative;
+    height: calc(100vh - 20px);
+    min-height: 500px;
 }
 
 h1 {
@@ -29,13 +32,3 @@ a i {
     width: 100%;
     max-width: 50px;
 }
-
-
-.center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin: 28px 0;
-    text-align: center;
- }
