@@ -121,6 +121,10 @@ const updateSidebar = () => {
         if (currentQuestionsNumber == i) qnButton.classList.add('border', 'border-white')
         qnButtonsDiv.append(qnButton)
     })
+    const prevSection = document.querySelector('.fa-arrow-left')
+    const nextSection = document.querySelector('.fa-arrow-right')
+    prevSection.style.visibility = (sections.indexOf(currentSection) == 0) ? 'hidden': 'visible'
+    nextSection.style.visibility = (sections.indexOf(currentSection) == sections.length - 1) ? 'hidden': 'visible'
 }
 
 const changeQuestion = (questionNumber, closeSidebar) => {
@@ -135,8 +139,8 @@ const changeQuestion = (questionNumber, closeSidebar) => {
     if (answers[currentQuestionsNumber] != null)
         selectedOption = answers[currentQuestionsNumber]
 
+    const addAttribute = (elem, attr) => elem.substring(0, elem.lastIndexOf('>')) + ` ${attr}` + elem.substring(elem.lastIndexOf('>'))
     question.options.forEach((option) => {
-        const addAttribute = (elem, attr) => elem.substring(0, elem.lastIndexOf('>')) + ` ${attr}` + elem.substring(elem.lastIndexOf('>'))
         input = `<input type="radio" class="btn-check" name="options" id="${option[0]}" value="${option}" autocomplete="off">`
         if (finishQuizBtn.style.visibility == 'hidden')
             input = addAttribute(input, 'disabled')
@@ -180,7 +184,12 @@ const changeQuestion = (questionNumber, closeSidebar) => {
     } catch (ignore) { }
 
     if (closeSidebar && window.innerWidth <= 858) $('#sidebar, #content').addClass('active');
-
+    const nextBtn = document.querySelector('#next-question')
+    const prevBtn = document.querySelector('#prev-question')
+    if (currentQuestionsNumber == 0) prevBtn.setAttribute('disabled', '')
+    else prevBtn.removeAttribute('disabled')
+    if (currentQuestionsNumber == questions[currentSection].length - 1) nextBtn.setAttribute('disabled', '')
+    else nextBtn.removeAttribute('disabled')
 }
 
 const nextQuestion = () => {
