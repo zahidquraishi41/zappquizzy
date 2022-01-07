@@ -144,6 +144,7 @@ def __clean_section(content: BeautifulSoup) -> None:
         'Participate in',
         'to get free Certificate',
         'advertisment',
+        'Subscribe'
     ))
 
     for tag in content.find_all():
@@ -212,20 +213,21 @@ def scrap_section(url: str, enable_logging: bool = False) -> List[Tuple[str, str
                     code.insert(0, pre.text)
                 data.extend(code)
             else:
-                data.extend(elem.text.split('\n'))
+                data.extend(reversed(elem.text.split('\n')))
             if __is_question(elem):
                 break
             i -= 1
         data = [elem.strip() for elem in data]
-
         questions = []
         options = []
+        temp = []
         for elem in data:
             if elem.startswith(('a)', 'b)', 'c)', 'd)')):
-                options.append(elem)
+                options.insert(0, elem + ' ' + '\n'.join(temp))
+                temp.clear()
             else:
-                questions.insert(0, elem)
-
+                temp.insert(0, elem)
+        questions = temp
         try:
             answer = answer_div.text.split('\n', 1)[0].strip()
             if answer and ':' in answer:
