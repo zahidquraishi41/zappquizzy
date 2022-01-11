@@ -79,12 +79,12 @@ quizKeys.forEach(quizId => {
 
     hist[quizId]['scores'].forEach(section => {
         tbody.innerHTML += `<tr>
-        <td colspan="9">${section['section']}</td>
+        <td width="70%">${section['section']}</td>
         <td>${section['score']}</td>
         </tr>`
     })
     tbody.innerHTML += `<tr>
-    <td colspan="9">Average</td>
+    <td width="70%">Average</td>
     <td>${hist[quizId]['average']}%</td>
     </tr>`
 
