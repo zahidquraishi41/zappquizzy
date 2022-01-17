@@ -1,7 +1,7 @@
 const shuffleQuestionCB = document.querySelector('#shuffle-questions')
 const enableTimerCB = document.querySelector('#enable-timer')
 const timePerQuestionSelect = document.querySelector('#time-per-question')
-const reselectorModalBody = document.querySelector('#ReselectBody')
+const reselectorModalBody = document.querySelector('#reselectBody')
 const reselectBtn = document.querySelector('#reselect')
 let userSelections = undefined
 
@@ -29,8 +29,9 @@ let showReselectModal = () => {
         let button = document.createElement('button')
         button.textContent = name
         button.classList.add('btn', 'btn-outline-primary', 'm-2')
+        button.style.width = '120px'
         button.addEventListener('click', () => {
-            $('#ReselectModal').modal('hide')
+            $('#reselectModal').modal('hide')
             window.location.href = href
         })
         return button
@@ -46,7 +47,7 @@ let showReselectModal = () => {
             reselectorModalBody.append(createBtn('Sections', '/sections'))
         reApplyTheme()
     }
-    $('#ReselectModal').modal('show')
+    $('#reselectModal').modal('show')
 }
 
 reselectBtn.addEventListener('click', async () => {
