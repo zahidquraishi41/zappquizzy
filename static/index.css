@@ -23,7 +23,6 @@ a.btn {
     padding-right: 60px;
     text-transform: uppercase;
     overflow: hidden;
-    transition: 0.5s all ease;
     width: 300px;
 }
 

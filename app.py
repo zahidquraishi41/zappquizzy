@@ -135,5 +135,16 @@ def postmethod():
     return '', 200
 
 
+@app.route('/getmethod', methods=['GET'])
+def getmethod():
+    data = {
+        'category': session.category,
+        'topic': session.topic,
+        'chapter': session.chapter,
+        'sections': session.sections,
+    }
+    return data
+
+
 if __name__ == '__main__':
     app.run(debug=False)
