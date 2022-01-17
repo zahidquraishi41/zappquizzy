@@ -29,7 +29,7 @@ let showReselectModal = () => {
         let button = document.createElement('button')
         button.textContent = name
         button.classList.add('btn', 'btn-outline-primary', 'm-2')
-        button.style.width = '120px'
+        button.style.width = '100px'
         button.addEventListener('click', () => {
             $('#reselectModal').modal('hide')
             window.location.href = href
