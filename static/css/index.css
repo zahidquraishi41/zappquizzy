@@ -31,3 +31,9 @@ a i {
     width: 100%;
     max-width: 50px;
 }
+
+#reselectBody {
+    text-align: center;
+    width: 60%;
+    margin: 0 auto;
+}
