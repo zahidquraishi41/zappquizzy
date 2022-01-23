@@ -227,7 +227,7 @@ class SessionDB:
 
     def __create_table(self):
         statement = '''CREATE TABLE IF NOT EXISTS session (
-            user_id INTEGER PRIMARY KEY,
+            user_id TEXT PRIMARY KEY,
             category TEXT,
             topic TEXT,
             chapter TEXT,
