@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block stylesheet %}
+<style>
+    #main {
+        background: url("{{ url_for('static', filename='img/aec_bg.jpg') }}");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        height: 99vh;
+    }
+
+    .container {
+        border: 2px solid gray;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+</style>
+{% endblock stylesheet %}
+
+{% block main %}
+<div id="main">
+    <div class="container rounded position-absolute top-50 start-50 translate-middle p-3 text-light">
+        <h1 class="display-3 mb-3">About</h1>
+        <p>The “Quizzy” application has been developed to override the problems prevailing in the practicing manual
+            system. This application is supported to eliminate and in some cases reduce the hardships faced by the
+            existing system. Moreover this application is designed for particular need of the students to study as well
+            as practice various topics according to their needs and also carry out operations in a smooth and effective
+            manner this application manages all the information of the students, exams, marks and subjects .</p>
+
+        <p>
+        <p>The project was developed for partial fulfillment of MCA degree. We would like to mention our sincere
+            gratitude towards our principle <b>Dr. P. P. Bhattacharya</b> and HOD
+            <b>Dr. Dibyendu Pal</b>, MCA Department, for giving us the opportunity to carry out our project. We would
+            like to express our heart full gratitude to our project guide <b>Mr. Tapan Kumar Das</b>, who took
+            keen interest on our
+            project work and guided us all along, till the completion of our project work by providing all the necessary
+            information for developing a good system. Finally, we take this opportunity to mention our sincere thanks to
+            all team members for the completion of our
+            project.
+        </p>
+        <p class="text-end">
+            <span><b>Name and Roll of Students</b></span> <br>
+            <span>Md Zahid Quraishi (10871020010)</span> <br>
+            <span>Harsh Pathak (10871020008)</span> <br>
+            <span>Souvik Mukherjee (10871020037)</span> <br>
+            <span>Rohan Kumar Lal Das (10871020026)</span><br>
+            <span>Tuhin Prasad (10871020031)</span>
+        </p>
+    </div>
+</div>
+{% endblock main %}

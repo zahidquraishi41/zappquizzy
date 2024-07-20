@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include 'includes/darkmode_nav.html' %}
+
+<div class="position-absolute top-50 start-50 translate-middle text-center">
+    <h1 class="display-1">404</h1>
+    <h1 class="fs-4">PAGE NOT FOUND</h1>
+    <p>
+        Unfortunately we're having trouble loading the page you are looking <br>
+        for. Please wait a moment and try loading again or use action below.
+    </p>
+    <a href="/categories" class="btn btn-primary me-3">Homepage</a>
+    <button class="btn btn-secondary" onclick="window.history.go(-1)">Previous page</button>
+</div>
+{% endblock content %}

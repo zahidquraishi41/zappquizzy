@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include 'includes/darkmode_nav.html' %}
+
+<div class="text-center m-5">
+    <div class="row">
+        <div class="card col bg-primary me-1">
+            <p id="total-attempts" class="display-3">0</p>
+            <span class="fs-5">Total Attempts</span>
+        </div>
+
+        <div class="card col bg-warning me-1">
+            <p id="successful-attempts" class="display-3">0</p>
+            <span class="fs-5">Successful Attempts</span>
+        </div>
+
+        <div class="card col bg-info">
+            <p>
+                <span id="avg-score" class="display-3">0</span>
+                <span class="display-5">%</span>
+            </p>
+            <span class="fs-5">Avg. Score</span>
+        </div>
+
+        <div class="mb-5"></div>
+
+        <h1 id="no-history" class="display-5">No Record Found.</h1>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/quiz_history.js') }}"></script>
+{% endblock scripts %}

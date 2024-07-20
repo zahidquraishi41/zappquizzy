@@ -1,0 +1,40 @@
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+body {
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    height: calc(100vh - 20px);
+    min-height: 500px;
+}
+
+h1 {
+    text-transform: uppercase;
+    letter-spacing: 20px;
+    margin-right: -20px;
+    cursor: default;
+}
+
+a.btn {
+    position: relative;
+    display: block;
+    font-family: "montserrat";
+    text-decoration: none;
+    margin: 10px auto;
+    padding: 0px;
+    padding-right: 60px;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: 0.5s all ease;
+    width: 300px;
+}
+
+a i {
+    padding: 16px;
+    width: 100%;
+    max-width: 50px;
+}
+
+#reselectBody {
+    text-align: center;
+    width: 60%;
+    margin: 0 auto;
+}
