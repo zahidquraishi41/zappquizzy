@@ -1,0 +1,185 @@
+<!-- REQUIRES FOLLOWING PARAMETERS -->
+<!-- title: str -->
+<!-- questions_json: str -->
+
+{% extends "base.html" %}
+
+{% block stylesheet %}
+<!-- Bootstrap CSS CDN -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+   integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<!-- Our Custom CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
+<!-- Scrollbar Custom CSS -->
+<link rel="stylesheet"
+   href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+{% endblock stylesheet %}
+
+{% block main %}
+<input type="hidden" id="questions" value='{{ questions_json|tojson|safe }}'>
+<input type="hidden" id="missing-sections" value='{{ missing_sections|tojson|safe }}'>
+<div class="d-flex w-100">
+   <!-- Sidebar  -->
+   <nav id="sidebar" class="p-3 active">
+      <div class="d-flex my-2">
+         <i class="fas fa-times ml-auto sidebarCollapse"></i>
+      </div>
+      <div class="row align-items-center justify-content-between mb-3">
+         <i class="fas fa-arrow-left col" onclick="prevSection()"></i>
+         <span class="fs-5 section-name text-center col">
+            <!-- SECTION NAME WILL BE INJECTED HERE -->
+         </span>
+         <i class="fas fa-arrow-right col text-end" onclick="nextSection()"></i>
+      </div>
+
+      <div class="qn-buttons">
+         <!-- QUESTION BUTTONS WILL BE INJECTED HERE -->
+      </div>
+   </nav>
+
+   <!-- Page Content  -->
+   <div id="content" class="snmb p-4 active">
+      <!-- Questions Attempted Modal -->
+      <div class="modal fade" id="questionsAttemptedModal" tabindex="-1" aria-labelledby="questionsAttemptedModalLabel"
+         aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content snmb">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="questionsAttemptedModalLabel">Questions Attempted</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body" id="questionsAttemptedBody">
+                  <!-- LIST OF SECTIONS WITH QUESTIONS ATTEMPTED WILL BE DISPLAYED HERE -->
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-primary" onclick="displayScoreModal()">Finish</button>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <!-- Score Modal -->
+      <div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content snmb">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="scoreModalLabel">Final Score</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body" id="scoreBody">
+                  <!-- LIST OF SECTIONS WITH QUESTIONS ATTEMPTED WILL BE DISPLAYED HERE -->
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" onclick="resetAndGoHome()">Home</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Details</button>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <!-- Missing Sections Modal -->
+      <div class="modal fade" id="missingSectionsModal" tabindex="-1" aria-labelledby="missingSectionsModalLabel"
+         aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content snmb">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="missingSectionsModalLabel">Missing Sections</h5>
+               </div>
+               <div class="modal-body" id="missingSectionsBody">
+                  <p>The following sections are currently work in progress.</p>
+                  <ul>
+                     {% for section in missing_sections %}
+                     <li>{{ section }}</li>
+                     {% endfor %}
+                  </ul>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-primary invisible" data-bs-dismiss="modal"
+                     onclick="loadContent()">Continue</button>
+                  <button type="button" class="btn btn-secondary" onclick="resetAndGoHome()">Back</button>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="mb-3 p-1 d-flex align-items-center">
+         <button class="btn btn-success me-2 sidebarCollapse">
+            <i class="fas fa-align-left"></i>
+         </button>
+         <button class="btn btn-primary me-2" onclick="toggleDarkMode()">
+            <i class="fas fa-moon toggle-dark"></i>
+         </button>
+
+         <div id="timer" class="invisible ms-auto">
+            <p class="time-left bg-secondary border border-info rounded d-inline p-2">
+               <span class="me-2 text-white">Time Left</span>
+               <span class="border border-danger rounded bg-light text-dark">
+                  <span id="tl-text" class="px-1"></span>
+               </span>
+            </p>
+         </div>
+      </div>
+
+      <!-- Question And Options -->
+      <div class="content-box">
+         <pre class="question tex2jax_process snmt">
+            <!-- QUESTION WILL BE INJECTED HERE -->
+         </pre>
+         <div class="options">
+            <!-- OPTIONS WILL BE INJECTED HERE -->
+         </div>
+         <div class="explanation">
+            <!-- EXPLANATION WILL BE INJECTED HERE -->
+         </div>
+      </div>
+
+      <!-- Prev, Next, Mark For Review, Finish Buttons -->
+      <div class="d-flex my-3 pb-5">
+         <button id="prev-question" class="btn btn-primary me-2" type="button" onclick="prevQuestion()">Prev</button>
+         <button id="next-question" class="btn btn-primary me-2" type="button" onclick="nextQuestion()">Next</button>
+         <button id="markForReview" class="btn btn-warning me-2" type="button" onclick="markForReview()">Mark
+            For Review</button>
+         <button class="btn btn-danger ml-auto" type="button" id="finishQuiz"
+            onclick="displayAttempts()">Finish</button>
+      </div>
+   </div>
+
+</div>
+{% endblock main %}
+
+
+{% block scripts %}
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!-- jQuery Custom Scroller CDN -->
+<script
+   src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<!-- MathJax -->
+<script>
+   MathJax = {
+      options: {
+         ignoreHtmlClass: 'tex2jax_ignore',    //  class that marks tags not to search
+         processHtmlClass: 'tex2jax_process'  //  class that marks tags that should be searched
+      }
+   };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- jQuery for sidebarCollapse -->
+<script type="text/javascript">
+   $('html').toggleClass('')
+   $(document).ready(function () {
+      $("#sidebar").mCustomScrollbar({
+         theme: "minimal"
+      });
+      $('.sidebarCollapse').on('click', function () {
+         $('#sidebar, #content').toggleClass('active');
+      });
+   });
+</script>
+
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+{% endblock scripts %}

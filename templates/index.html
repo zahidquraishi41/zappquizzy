@@ -1,0 +1,94 @@
+<!-- REQUIRES FOLLOWING PARAMETERS -->
+<!-- sections: list[str] -->
+{% extends "base.html" %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock stylesheet %}
+
+{% block content %}
+{% include 'includes/darkmode_nav.html' %}
+<!-- Settings Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content snmb">
+            <div class="modal-header">
+                <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="settingsBody">
+                <div class="form-check form-switch">
+                    <input class="form-check-input me-4" type="checkbox" role="switch" id="shuffle-questions">
+                    <label class="form-check-label" for="shuffle-questions">Shuffle questions</label>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input me-4" type="checkbox" role="switch" id="enable-timer">
+                    <label class="form-check-label" for="enable-timer">Enable timer</label>
+                </div>
+                <div>
+                    <select class="me-1 snm" id="time-per-question">
+                        {% for i in range(1, 9) %}
+                        <option value="{{ i*15 }}">{{ i*15 }}</option>
+                        {% endfor %}
+                    </select>
+                    <span>Seconds per question</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reselect Modal -->
+<div class="modal fade" id="reselectModal" tabindex="-1" aria-labelledby="reselectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content snmb">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reselectModalLabel">Reselect</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="reselectBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="position-absolute top-50 start-50 translate-middle">
+    <h1 class="display-3 mb-5 text-center">Quizzy</h1>
+
+    <a href="/quiz" class="btn btn-outline-dark text-start snmbtn">
+        <i class="fas fa-play me-3 bg-primary rounded"></i>
+        Start Quiz
+    </a>
+    <a href="#" class="btn btn-outline-dark text-start snmbtn" data-bs-toggle="modal" data-bs-target="#settingsModal">
+        <i class="fas fa-cogs me-3 bg-success rounded"></i>
+        Settings
+    </a>
+    <a id="reselect" href="#" class="btn btn-outline-dark text-start snmbtn">
+        <i class="fas fa-arrow-right me-3 bg-warning rounded"></i>
+        Reselect
+    </a>
+    <a href="/quiz_history" class="btn btn-outline-dark text-start snmbtn">
+        <i class="fas fa-history me-3 bg-info rounded"></i>
+        History
+    </a>
+    <a href="/about" class="btn btn-outline-dark text-start snmbtn">
+        <i class="fas fa-info-circle me-3 bg-secondary rounded"></i>
+        About
+    </a>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock scripts %}

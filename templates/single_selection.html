@@ -1,0 +1,43 @@
+<!-- REQUIRES FOLLOWING PARAMETERS -->
+<!-- items: list[str] -->
+<!-- title: str -->
+<!-- show_previous: boolean -->
+
+{% extends "base.html" %}
+
+{% block content %}
+{% include 'includes/darkmode_nav.html' %}
+<h1 class="display-3"> {{ title }} </h1>
+<hr class="mb-5">
+
+<form method="post" class="mb-5">
+    <div class="row">
+        {% for item in items %}
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+            <input type="radio" class="btn-check" name="items" id="{{ item }}" value="{{ item }}" autocomplete="off">
+            <label class="btn btn-outline-primary py-3 btn-item" for="{{ item }}">{{ item }}</label>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if prev_url %}
+    <button class="btn btn-primary px-3 me-2" type="button"
+        onclick="window.location.href='{{ prev_url }}'">Prev</button>
+    {% endif %}
+    <button class="btn btn-primary px-3" type="submit">Next</button>
+</form>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    // selecting first radio button on page
+    document.querySelector("input[name=items]").checked = true
+
+    let data = { user_id: getUserId() };
+    fetch("/postmethod", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+</script>
+{% endblock scripts %}

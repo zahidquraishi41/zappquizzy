@@ -1,0 +1,14 @@
+.bg-light {
+    background: #f5f5f5 !important;
+}
+
+.btn-item {
+    width: 230px;
+    max-width: 230px;
+}
+
+.card {
+    padding: 14px 10px;
+    color: white;
+    display: inline-block;
+}

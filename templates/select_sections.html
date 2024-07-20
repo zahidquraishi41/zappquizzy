@@ -1,0 +1,68 @@
+<!-- REQUIRES FOLLOWING PARAMETERS -->
+<!-- sections: list[str] -->
+<!-- title: str -->
+<!-- prev_url: str -->
+
+{% extends "base.html" %}
+
+{% block content %}
+{% include 'includes/darkmode_nav.html' %}
+<h1 class="display-3">{{ title }}</h1>
+<hr class="mb-5">
+
+<!-- Score Modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content snm">
+            <div class="modal-header">
+                <h5 class="modal-title" id="alertModalLabel">Warning</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Select at least one section to continue.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="post" class="mb-5">
+    <div class="row">
+        <p><i class="fas fa-info-circle text-success"></i> Multiple selections are available.</p>
+        {% for section in sections %}
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+            <input type="checkbox" class="btn-check" name="sections" id="{{ section }}" value="{{ section }}"
+                autocomplete="off">
+            <label class="btn btn-outline-primary py-3 btn-item" for="{{ section }}">{{ section }}</label>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button class="btn btn-primary px-3 me-2" type="button"
+        onclick="window.location.href='{{ prev_url }}'">Prev</button>
+    <button class="btn btn-primary px-3" type="submit">Next</button>
+</form>
+{% endblock content %}
+
+{% block scripts %}
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+    integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+    crossorigin="anonymous"></script>
+
+<script>
+    document.querySelector('form').addEventListener('submit', event => {
+        const checkboxes = document.querySelectorAll('input[name="sections"]:checked');
+        if (!checkboxes.length) {
+            event.preventDefault()
+            $("#alertModal").modal("show");
+        }
+    })
+</script>
+{% endblock scripts %}
